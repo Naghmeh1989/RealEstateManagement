@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="767d4c5106c64ce18a81c13182c2e7a8" Name="Diagram1">
+        <EntityTypeShape EntityType="FirstProjectModel.Agency" Width="1.5" PointX="3" PointY="1.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FirstProjectModel.Building" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="FirstProjectModel.Flat" Width="1.5" PointX="3" PointY="7.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="FirstProjectModel.User" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
+        <AssociationConnector Association="FirstProjectModel.FK_Agency_User1" ManuallyRouted="false" />
+        <AssociationConnector Association="FirstProjectModel.FK_Flat_Building" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FirstProjectModel.Contract" Width="1.5" PointX="5.25" PointY="3.625" />
+        <AssociationConnector Association="FirstProjectModel.FK_Contract_Flat" />
+        <EntityTypeShape EntityType="FirstProjectModel.RentPayment" Width="1.5" PointX="5.75" PointY="0.75" />
+        <EntityTypeShape EntityType="FirstProjectModel.Tenant" Width="1.5" PointX="3" PointY="4" />
+        <AssociationConnector Association="FirstProjectModel.FK_Contract_Tenant" />
+        <AssociationConnector Association="FirstProjectModel.FK_Tenant_User" />
+        <AssociationConnector Association="FirstProjectModel.FK_RentPayment_Contract" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

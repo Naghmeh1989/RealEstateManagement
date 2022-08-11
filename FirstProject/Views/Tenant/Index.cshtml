@@ -1,0 +1,75 @@
+﻿@model IEnumerable<FirstProject.ViewModels.IndexTenantViewModel>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TenantFirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenantLastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlatId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UserName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlatNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BuildingId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BuildingAddress)
+        </th>
+
+    </tr>
+   @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenantFirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TenantLastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlatId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UserName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuildingId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FlatNumber)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BuildingAddress)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.TenantId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.TenantId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.TenantId })
+            </td>
+        </tr>
+    }
+</table>

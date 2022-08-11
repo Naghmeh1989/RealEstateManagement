@@ -1,0 +1,44 @@
+﻿@model IEnumerable<FirstProject.ViewModels.IndexFlatViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<p>
+    @Html.ActionLink("Create", "Create New")
+</p>
+<table>
+    <tr>
+
+        <th>@Html.DisplayNameFor(model => model.BuildingAddress)</th>
+        <th>@Html.DisplayNameFor(model => model.BuildingName)</th>
+        <th>@Html.DisplayNameFor(model => model.Floor)</th>
+        <th>@Html.DisplayNameFor(model => model.Number)</th>
+        <th>@Html.DisplayNameFor(model => model.Furnished)</th>
+        <th>@Html.DisplayNameFor(model => model.Parking)</th>
+        <th>@Html.DisplayNameFor(model => model.PetAllowed)</th>
+        <th>@Html.DisplayNameFor(model => model.BillsIncluded)</th>
+        <th>@Html.DisplayNameFor(model => model.Bedroom)</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>@Html.DisplayFor(modelItem => item.BuildingAddress)</td>
+            <td>@Html.DisplayFor(modelItem => item.BuildingName)</td>
+            <td>@Html.DisplayFor(modelItem => item.Floor)</td>
+            <td>@Html.DisplayFor(modelItem => item.Number)</td>
+            <td>@Html.DisplayFor(modelItem => item.Furnished)</td>
+            <td>@Html.DisplayFor(modelItem => item.Parking)</td>
+            <td>@Html.DisplayFor(modelItem => item.PetAllowed)</td>
+            <td>@Html.DisplayFor(modelItem => item.BillsIncluded)</td>
+            <td>@Html.DisplayFor(modelItem => item.Bedroom)</td>
+       
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.FlatId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.FlatId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.FlatId })
+        </td>
+        </tr>
+    }
+</table>

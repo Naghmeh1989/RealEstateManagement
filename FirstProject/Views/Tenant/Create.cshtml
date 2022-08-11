@@ -1,0 +1,45 @@
+﻿@model FirstProject.ViewModels.CreateTenantViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create</h2>
+
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>UserName</td>
+            <td>@Html.EditorFor(model => model.UserName)</td>
+        </tr>
+        <tr>
+            <td>Password</td>
+            <td>@Html.PasswordFor(model => model.Password)</td>
+        </tr>
+        <tr>
+            <td>TenantFirstName</td>
+            <td>@Html.EditorFor(model => model.TenantFirstName)</td>
+        </tr>
+        <tr>
+            <td>TenantLastName</td>
+            <td>@Html.EditorFor(model => model.TenantLastName)</td>
+        </tr>
+        
+        <tr>
+            <td>
+                <input type="submit" value="submit" />
+            </td>
+        </tr>
+
+    </table>
+}
+
+
+
+
+
+
+
+
+

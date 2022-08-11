@@ -1,0 +1,61 @@
+﻿@model FirstProject.ViewModels.CreateFlatViewModel
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+    
+
+    <h2>Create</h2>
+    @using (Html.BeginForm())
+
+    {
+        <table>
+
+           
+            <tr>
+                <td>BuildingName</td>
+                <td>
+                    @Html.DropDownList("Buildings", (IEnumerable
+                    <SelectListItem>)ViewData["BuildingsBag"])
+                </td>
+
+            </tr>
+           
+            <tr>
+                <td>Floor</td>
+                <td>@Html.EditorFor(model => model.Floor)</td>
+            </tr>
+            <tr>
+                <td>Number</td>
+                <td>@Html.EditorFor(model => model.Number)</td>
+            </tr>
+            <tr>
+                <td>Bedroom</td>
+                <td>@Html.EditorFor(model => model.Bedroom)</td>
+            </tr>
+            <tr>
+                <td>Parking</td>
+                <td>@Html.EditorFor(model => model.Parking)</td>
+            </tr>
+            <tr>
+                <td>PetAllowed</td>
+                <td>@Html.EditorFor(model => model.PetAllowed)</td>
+            </tr>
+            <tr>
+                <td>Furnished</td>
+                <td>@Html.EditorFor(model => model.Furnished)</td>
+            </tr>
+            <tr>
+                <td>BillsIncluded</td>
+                <td>@Html.EditorFor(model => model.BillsIncluded)</td>
+            </tr>
+
+
+            <tr>
+                <td>
+                    <input type="submit" value="submit" />
+                </td>
+            </tr>
+        </table>
+    }
+
