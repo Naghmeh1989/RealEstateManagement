@@ -128,6 +128,7 @@ namespace FirstProject.Controllers
         [HttpDelete, ActionName("Delete")]
         public ActionResult Delete(int? id)
         {
+
             try
             {
                 Agency agency = db.Agencies.Find(id);

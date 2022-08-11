@@ -1,15 +1,77 @@
-﻿
+﻿@model FirstProject.ViewModels.CreateContractViewModel
 @{
     ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<table>
-    <tr>
-     <td>
-        @Html.DropDownList("flats", (IEnumerable
-           <SelectListItem>)ViewData["FlatsBag"])
-     </td>
-    </tr>
-</table>
 <h2>Create</h2>
+@using (Html.BeginForm())
 
+{
+    <table>
+        <tr>
+            <td>Address</td>
+            <td>
+                @Html.DropDownList("buildings", (IEnumerable
+            <SelectListItem>)ViewData["BuildingsBag"])
+            </td>
+        </tr>
+        <tr>
+            <td>FlatId</td>
+            <td>
+                @Html.DropDownList("flats", (IEnumerable
+            <SelectListItem>)ViewData["FlatsBag"])
+            </td>
+        </tr>
+        <tr>
+            <td>AgencyId</td>
+            <td>
+                @Html.DropDownList("agencies", (IEnumerable
+            <SelectListItem>)ViewData["AgenciesBag"])
+            </td>
+        </tr>
+        <tr>
+            <td>TenantFirstName</td>
+            <td>
+                @Html.EditorFor(model => model.TenantFirstName)
+            </td>
+        </tr>
+        <tr>
+            <td>TenantLastName</td>
+            <td>
+                @Html.EditorFor(model => model.TenantLastName)
+            </td>
+        </tr>
+        <tr>
+            <td>StartDate</td>
+            <td>
+                @Html.EditorFor(model => model.StartDate)
+            </td>
+        </tr>
+
+        <tr>
+            <td>EndDate</td>
+            <td>
+                @Html.EditorFor(model => model.EndDate)
+            </td>
+        </tr>
+        <tr>
+            <td>RentAmount</td>
+            <td>
+                @Html.EditorFor(model => model.RentAmount)
+            </td>
+        </tr>
+
+        <tr>
+            <td>RentPaymentDay</td>
+            <td>
+                @Html.EditorFor(model => model.RentPayDay)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="submit" />
+            </td>
+        </tr>
+    </table>
+    
+}

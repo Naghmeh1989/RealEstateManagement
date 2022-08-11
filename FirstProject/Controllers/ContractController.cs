@@ -30,38 +30,41 @@ namespace FirstProject.Controllers
         //public ActionResult
         public ActionResult Create()
         {
-            var flats = new SelectList(db.Flats.ToList(), "Id", "Number");
+            var flats = new SelectList(db.Flats.ToList(), "Id", "Id");
             ViewData["FlatsBag"] = flats;
-           // var agencies = new SelectList(db.Agencies.ToList(), "Id", "Name");
-           // ViewData["AgenciesBag"] = agencies;
+            var agencies = new SelectList(db.Agencies.ToList(), "Id", "Id");
+            ViewData["AgenciesBag"] = agencies;
+            var buildings = new SelectList(db.Buildings.ToList(), "Id", "Address");
+            ViewData["BuildingsBag"] = buildings;
             return View();
         }
-        
-        
-        //[HttpPost]
-        //public ActionResult Create([Bind(Include = "FlatId,TenantId,AgencyID,RentAmount,RentPayDay,StartDate,EndDate")] CreateContractViewModel createContractViewModel)
-        //{
-        //    try
-        //    {
-        //        Tenant tenant = new Tenant();
-        //        tenant.LastName = createContractViewModel.LastName;
 
-        //        Contract contract = new Contract();
-        //        contract.StartDate = createContractViewModel.StartDate;
-        //        contract.EndDate = createContractViewModel.EndDate;
-        //        contract.RentPayDay = createContractViewModel.RentPayDay;
-        //        //contract.RentAmount = createContractViewModel.RentAmount;
-        //        db.Contracts.Add(contract);
-        //        db.SaveChanges();
 
-        //        return View(contract);
-        //    }
-        //    catch(Exception ex)
-        //    {
-        //        return null;
-        //    }
+        [HttpPost]
+        public ActionResult Create([Bind(Include = "FlatId,TenantFirstName,TenantLastName,AgencyID,RentAmount,RentPayDay,StartDate,EndDate")] CreateContractViewModel createContractViewModel)
+        {
+            try
+            {
+                Tenant tenant = new Tenant();
+                tenant.Name = createContractViewModel.TenantFirstName;
+                tenant.LastName = createContractViewModel.TenantLastName;
 
-        //}
+                Contract contract = new Contract();
+                //contract.StartDate = createContractViewModel.StartDate;
+                contract.EndDate = createContractViewModel.EndDate;
+                contract.RentPaymentDay = createContractViewModel.RentPayDay;
+                contract.RentAmount = createContractViewModel.RentAmount;
+                db.Contracts.Add(contract);
+                db.SaveChanges();
+
+                return View(contract);
+            }
+            catch(Exception ex)
+            {
+                return null;
+            }
+
+        }
 
 
         // GET: Contracts/Edit/5
