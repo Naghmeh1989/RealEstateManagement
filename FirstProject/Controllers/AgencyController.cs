@@ -64,10 +64,6 @@ namespace FirstProject.Controllers
 
 
 
-
-
-
-
          
 
         // GET : Agencies/Details/1
