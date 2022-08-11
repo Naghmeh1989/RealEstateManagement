@@ -128,10 +128,17 @@ namespace FirstProject.Controllers
         [HttpDelete, ActionName("Delete")]
         public ActionResult Delete(int? id)
         {
-            Agency agency = db.Agencies.Find(id);
-            db.Agencies.Remove(agency);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            try
+            {
+                Agency agency = db.Agencies.Find(id);
+                db.Agencies.Remove(agency);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                return null;
+            }
         }
         protected override void Dispose(bool disposing)
         {
