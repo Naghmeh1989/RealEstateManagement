@@ -9,37 +9,37 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Building">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="NumberOfFlats" Type="int" />
+          <Property Name="NumberOfFlats" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FlatId" Type="int" Nullable="false" />
           <Property Name="TenantId" Type="int" Nullable="false" />
           <Property Name="AgencyId" Type="int" Nullable="false" />
-          <Property Name="RentPaymentDay" Type="datetime" Nullable="false" />
+          <Property Name="StartDate" Type="datetime" Nullable="false" />
           <Property Name="EndDate" Type="datetime" Nullable="false" />
-          <Property Name="StartDate" Type="int" Nullable="false" />
+          <Property Name="RentPaymentDay" Type="int" Nullable="false" />
           <Property Name="RentAmount" Type="decimal" Precision="18" Scale="0" Nullable="false" />
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Flat">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="BuildingId" Type="int" Nullable="false" />
+          <Property Name="BuildingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Number" Type="int" Nullable="false" />
           <Property Name="Floor" Type="int" Nullable="false" />
           <Property Name="Bedroom" Type="int" />
@@ -47,25 +47,24 @@
           <Property Name="PetAllowed" Type="bit" />
           <Property Name="BillsIncluded" Type="bit" />
           <Property Name="Furnished" Type="bit" />
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Id" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="RentPayment">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ContractId" Type="int" Nullable="false" />
           <Property Name="IsPaid" Type="bit" Nullable="false" />
-          <Property Name="PayDate" Type="datetime" Nullable="false" />
-          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PaymentDate" Type="datetime" Nullable="false" />
         </EntityType>
         <EntityType Name="Tenant">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="UserId" Type="int" Nullable="false" />
-          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="LastName" Type="varchar" MaxLength="50" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -86,6 +85,18 @@
             </Principal>
             <Dependent Role="Agency">
               <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Contract_Agency">
+          <End Role="Agency" Type="Self.Agency" Multiplicity="1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agency">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="AgencyId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -137,18 +148,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Tenant_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Tenant" Type="Self.Tenant" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Tenant">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="FirstProjectModelStoreContainer">
           <EntitySet Name="Agency" EntityType="Self.Agency" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Building" EntityType="Self.Building" Schema="dbo" store:Type="Tables" />
@@ -160,6 +159,10 @@
           <AssociationSet Name="FK_Agency_User" Association="Self.FK_Agency_User">
             <End Role="User" EntitySet="User" />
             <End Role="Agency" EntitySet="Agency" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Contract_Agency" Association="Self.FK_Contract_Agency">
+            <End Role="Agency" EntitySet="Agency" />
+            <End Role="Contract" EntitySet="Contract" />
           </AssociationSet>
           <AssociationSet Name="FK_Contract_Flat" Association="Self.FK_Contract_Flat">
             <End Role="Flat" EntitySet="Flat" />
@@ -177,10 +180,6 @@
             <End Role="Contract" EntitySet="Contract" />
             <End Role="RentPayment" EntitySet="RentPayment" />
           </AssociationSet>
-          <AssociationSet Name="FK_Tenant_User" Association="Self.FK_Tenant_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="Tenant" EntitySet="Tenant" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
@@ -194,13 +193,14 @@
           <Property Name="UserId" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="User" Relationship="Self.FK_Agency_User1" FromRole="Agency" ToRole="User" />
+          <NavigationProperty Name="Contracts" Relationship="FirstProjectModel.FK_Contract_Agency" FromRole="Agency" ToRole="Contract" />
         </EntityType>
         <EntityType Name="Building">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
           <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="NumberOfFlats" Type="Int32" />
+          <Property Name="NumberOfFlats" Type="Int32" Nullable="false" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Address" Type="String" MaxLength="200" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Flats" Relationship="Self.FK_Flat_Building" FromRole="Building" ToRole="Flat" />
@@ -231,7 +231,6 @@
           <Property Name="Username" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Agencies" Relationship="Self.FK_Agency_User1" FromRole="User" ToRole="Agency" />
-          <NavigationProperty Name="Tenants" Relationship="FirstProjectModel.FK_Tenant_User" FromRole="User" ToRole="Tenant" />
         </EntityType>
         <Association Name="FK_Agency_User1">
           <End Role="User" Type="Self.User" Multiplicity="1" />
@@ -270,42 +269,74 @@
             <End Role="Building" EntitySet="Buildings" />
             <End Role="Flat" EntitySet="Flats" />
           </AssociationSet>
+          <EntitySet Name="RentPayments" EntityType="FirstProjectModel.RentPayment" />
+          <EntitySet Name="Tenants" EntityType="FirstProjectModel.Tenant" />
           <EntitySet Name="Contracts" EntityType="FirstProjectModel.Contract" />
+          <AssociationSet Name="FK_Contract_Agency" Association="FirstProjectModel.FK_Contract_Agency">
+            <End Role="Agency" EntitySet="Agencies" />
+            <End Role="Contract" EntitySet="Contracts" />
+          </AssociationSet>
           <AssociationSet Name="FK_Contract_Flat" Association="FirstProjectModel.FK_Contract_Flat">
             <End Role="Flat" EntitySet="Flats" />
             <End Role="Contract" EntitySet="Contracts" />
           </AssociationSet>
-          <EntitySet Name="RentPayments" EntityType="FirstProjectModel.RentPayment" />
-          <EntitySet Name="Tenants" EntityType="FirstProjectModel.Tenant" />
           <AssociationSet Name="FK_Contract_Tenant" Association="FirstProjectModel.FK_Contract_Tenant">
             <End Role="Tenant" EntitySet="Tenants" />
             <End Role="Contract" EntitySet="Contracts" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Tenant_User" Association="FirstProjectModel.FK_Tenant_User">
-            <End Role="User" EntitySet="Users" />
-            <End Role="Tenant" EntitySet="Tenants" />
           </AssociationSet>
           <AssociationSet Name="FK_RentPayment_Contract" Association="FirstProjectModel.FK_RentPayment_Contract">
             <End Role="Contract" EntitySet="Contracts" />
             <End Role="RentPayment" EntitySet="RentPayments" />
           </AssociationSet>
         </EntityContainer>
+        <EntityType Name="RentPayment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" />
+          <Property Name="ContractId" Type="Int32" Nullable="false" />
+          <Property Name="IsPaid" Type="Boolean" Nullable="false" />
+          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Contract" Relationship="FirstProjectModel.FK_RentPayment_Contract" FromRole="RentPayment" ToRole="Contract" />
+        </EntityType>
+        <EntityType Name="Tenant">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FirstName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="Contracts" Relationship="FirstProjectModel.FK_Contract_Tenant" FromRole="Tenant" ToRole="Contract" />
+        </EntityType>
         <EntityType Name="Contract">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FlatId" Type="Int32" Nullable="false" />
           <Property Name="TenantId" Type="Int32" Nullable="false" />
           <Property Name="AgencyId" Type="Int32" Nullable="false" />
-          <Property Name="RentPaymentDay" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="StartDate" Type="DateTime" Nullable="false" Precision="3" />
           <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="StartDate" Type="Int32" Nullable="false" />
+          <Property Name="RentPaymentDay" Type="Int32" Nullable="false" />
           <Property Name="RentAmount" Type="Decimal" Nullable="false" Precision="18" Scale="0" />
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <NavigationProperty Name="Agency" Relationship="FirstProjectModel.FK_Contract_Agency" FromRole="Contract" ToRole="Agency" />
           <NavigationProperty Name="Flat" Relationship="FirstProjectModel.FK_Contract_Flat" FromRole="Contract" ToRole="Flat" />
           <NavigationProperty Name="Tenant" Relationship="FirstProjectModel.FK_Contract_Tenant" FromRole="Contract" ToRole="Tenant" />
           <NavigationProperty Name="RentPayments" Relationship="FirstProjectModel.FK_RentPayment_Contract" FromRole="Contract" ToRole="RentPayment" />
         </EntityType>
+        <Association Name="FK_Contract_Agency">
+          <End Type="FirstProjectModel.Agency" Role="Agency" Multiplicity="1" />
+          <End Type="FirstProjectModel.Contract" Role="Contract" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Agency">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Contract">
+              <PropertyRef Name="AgencyId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Contract_Flat">
           <End Type="FirstProjectModel.Flat" Role="Flat" Multiplicity="1" />
           <End Type="FirstProjectModel.Contract" Role="Contract" Multiplicity="*" />
@@ -318,27 +349,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <EntityType Name="RentPayment">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="ContractId" Type="Int32" Nullable="false" />
-          <Property Name="IsPaid" Type="Boolean" Nullable="false" />
-          <Property Name="PayDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Contract" Relationship="FirstProjectModel.FK_RentPayment_Contract" FromRole="RentPayment" ToRole="Contract" />
-        </EntityType>
-        <EntityType Name="Tenant">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="UserId" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <NavigationProperty Name="Contracts" Relationship="FirstProjectModel.FK_Contract_Tenant" FromRole="Tenant" ToRole="Contract" />
-          <NavigationProperty Name="User" Relationship="FirstProjectModel.FK_Tenant_User" FromRole="Tenant" ToRole="User" />
-        </EntityType>
         <Association Name="FK_Contract_Tenant">
           <End Type="FirstProjectModel.Tenant" Role="Tenant" Multiplicity="1" />
           <End Type="FirstProjectModel.Contract" Role="Contract" Multiplicity="*" />
@@ -348,18 +358,6 @@
             </Principal>
             <Dependent Role="Contract">
               <PropertyRef Name="TenantId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Tenant_User">
-          <End Type="FirstProjectModel.User" Role="User" Multiplicity="1" />
-          <End Type="FirstProjectModel.Tenant" Role="Tenant" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Tenant">
-              <PropertyRef Name="UserId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -426,37 +424,36 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Contracts">
-            <EntityTypeMapping TypeName="FirstProjectModel.Contract">
-              <MappingFragment StoreEntitySet="Contract">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="RentAmount" ColumnName="RentAmount" />
-                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
-                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
-                <ScalarProperty Name="RentPaymentDay" ColumnName="RentPaymentDay" />
-                <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
-                <ScalarProperty Name="TenantId" ColumnName="TenantId" />
-                <ScalarProperty Name="FlatId" ColumnName="FlatId" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="RentPayments">
             <EntityTypeMapping TypeName="FirstProjectModel.RentPayment">
               <MappingFragment StoreEntitySet="RentPayment">
-                <ScalarProperty Name="Id" ColumnName="Id" />
-                <ScalarProperty Name="PayDate" ColumnName="PayDate" />
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
                 <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
                 <ScalarProperty Name="ContractId" ColumnName="ContractId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Tenants">
             <EntityTypeMapping TypeName="FirstProjectModel.Tenant">
               <MappingFragment StoreEntitySet="Tenant">
-                <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LastName" ColumnName="LastName" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Contracts">
+            <EntityTypeMapping TypeName="FirstProjectModel.Contract">
+              <MappingFragment StoreEntitySet="Contract">
+                <ScalarProperty Name="RentAmount" ColumnName="RentAmount" />
+                <ScalarProperty Name="RentPaymentDay" ColumnName="RentPaymentDay" />
+                <ScalarProperty Name="EndDate" ColumnName="EndDate" />
+                <ScalarProperty Name="StartDate" ColumnName="StartDate" />
+                <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
+                <ScalarProperty Name="TenantId" ColumnName="TenantId" />
+                <ScalarProperty Name="FlatId" ColumnName="FlatId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

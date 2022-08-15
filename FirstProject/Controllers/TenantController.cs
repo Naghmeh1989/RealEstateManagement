@@ -36,10 +36,9 @@ namespace FirstProject.Controllers
                 var tenantViewModel = db.Tenants.Include(tenantObj => tenantObj.Contracts).Select(tenantObj => new IndexTenantViewModel
                 {
                     
-                    TenantFirstName = tenantObj.Name,
+                    TenantFirstName = tenantObj.FirstName,
                     TenantLastName = tenantObj.LastName,
-                    UserId = tenantObj.UserId,
-                    UserName = tenantObj.User.Username,
+                   
                     
 
 
@@ -87,11 +86,11 @@ namespace FirstProject.Controllers
               
                 user.Password = createTenantViewModel.Password;
                 Tenant tenantObj = new Tenant();
-                tenantObj.User = user;
-                tenantObj.Name = createTenantViewModel.TenantFirstName;
+                
+                tenantObj.FirstName = createTenantViewModel.TenantFirstName;
                 tenantObj.LastName = createTenantViewModel.TenantLastName;
                 
-                db.Tenants.Add(tenantObj);
+                db.Tenants.Add(tenantObj); 
                 db.SaveChanges();
 
                 return View(tenantObj);

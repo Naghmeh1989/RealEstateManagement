@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using FirstProject.ViewModels;
+using FirstProject.Business;
 
 namespace FirstProject.Controllers
 {
@@ -13,6 +14,7 @@ namespace FirstProject.Controllers
      public class AgencyController : Controller
     {
         private FirstProjectEntities db = new FirstProjectEntities();
+        private LoginRestriction loginRestriction = new LoginRestriction();
 
         //private FirstProjectEntities db;
         //private string name;
@@ -34,29 +36,38 @@ namespace FirstProject.Controllers
         {
             try
             {
-                //IndexAgencyViewModel model1 = new IndexAgencyViewModel();
-                //model1.AgencyId = 1;
-                //model1.UserId = 5;
-
-                //IndexAgencyViewModel model2 = new IndexAgencyViewModel { 
-                //    UserId = 1, 
-                //    AgencyName ="Iran" 
-                //};
-
-                var agenciesAndUsersViewModels = db.Agencies.Include(ag => ag.User).Select(ag => new IndexAgencyViewModel
-                {
-                    AgencyName = ag.Name,
-                    AgencyId = ag.Id,
-                    UserId = ag.UserId,
-                    UserName = ag.User.Username
-                });
                 
-                 return View(agenciesAndUsersViewModels);
+                if (loginRestriction.IsRestricted() == true)
+                {
+                    return RedirectToAction("Login", "Users");
+                }
+                else
+                {
+                    //IndexAgencyViewModel model1 = new IndexAgencyViewModel();
+                    //model1.AgencyId = 1;
+                    //model1.UserId = 5;
+
+                    //IndexAgencyViewModel model2 = new IndexAgencyViewModel { 
+                    //    UserId = 1, 
+                    //    AgencyName ="Iran" 
+                    //};
+
+                    var agenciesAndUsersViewModels = db.Agencies.Include(ag => ag.User).Select(ag => new IndexAgencyViewModel
+                    {
+                        AgencyName = ag.Name,
+                        AgencyId = ag.Id,
+                        UserId = ag.UserId,
+                        UserName = ag.User.Username
+                    });
+
+                    return View(agenciesAndUsersViewModels);
+                }
             }
-            catch (Exception ex) 
+            catch (Exception ex)
             {
                 return null;
             };
+        
         }
 
 
@@ -64,14 +75,21 @@ namespace FirstProject.Controllers
 
 
 
-         
+
 
         // GET : Agencies/Details/1
 
         public ActionResult Details(int? id)
         {
-            Agency agency = db.Agencies.Find(id);
-            return View(id);
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                Agency agency = db.Agencies.Find(id);
+                return View(id);
+            }
         }
         // Get : Agencies/Create
         public ActionResult Create()
@@ -99,7 +117,7 @@ namespace FirstProject.Controllers
 
                 db.Agencies.Add(agency1);
                 db.SaveChanges();
-                return View(agency1);
+                return RedirectToAction("Index");
             }
             catch (Exception ex)
             {
@@ -112,33 +130,53 @@ namespace FirstProject.Controllers
         //Get : Agencies/Edit
         public ActionResult Edit(int? id)
         {
-            Agency agency = db.Agencies.Find(id);
-            return View(agency);
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                Agency agency = db.Agencies.Find(id);
+                return View(agency);
+            }
         }
         //Post : Agencies/Edit
         [HttpPut]
         public ActionResult Edit([Bind(Include = "Id, Name, UserId")]Agency agency)
         {
-            db.Entry(agency).State = EntityState.Modified;
-            db.SaveChanges();
-            return RedirectToAction("Index");
-         
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                db.Entry(agency).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
         //Agencies/Delete
         [HttpDelete, ActionName("Delete")]
         public ActionResult Delete(int? id)
         {
-
-            try
+            if (loginRestriction.IsRestricted() == true)
             {
-                Agency agency = db.Agencies.Find(id);
-                db.Agencies.Remove(agency);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Users");
             }
-            catch (Exception ex)
+            else
             {
-                return null;
+
+                try
+                {
+                    Agency agency = db.Agencies.Find(id);
+                    db.Agencies.Remove(agency);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
             }
         }
         protected override void Dispose(bool disposing)

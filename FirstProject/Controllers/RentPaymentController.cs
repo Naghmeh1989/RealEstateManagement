@@ -1,4 +1,5 @@
 ﻿using Data;
+using FirstProject.Business;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -10,12 +11,20 @@ namespace FirstProject.Controllers
 {
     public class RentPaymentController : Controller
     {
-        public FirstProjectEntities db = new FirstProjectEntities();
+        private FirstProjectEntities db = new FirstProjectEntities();
+        private LoginRestriction loginRestriction = new LoginRestriction();
 
     //GET RentPayments
         public ActionResult Index()
         {
-            return View(db.RentPayments.ToList());
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                return View(db.RentPayments.ToList());
+            }
         }
 
     //GET : Details/RentPayments/5
@@ -23,8 +32,15 @@ namespace FirstProject.Controllers
         
         public ActionResult Details(int? id)
         {
-            RentPayment rentPayment = db.RentPayments.Find(id);
-            return View(rentPayment);
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                RentPayment rentPayment = db.RentPayments.Find(id);
+                return View(rentPayment);
+            }
 
         }
 
@@ -32,7 +48,14 @@ namespace FirstProject.Controllers
 
         public ActionResult Create()
         {
-            return View();
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                return View();
+            }
         }
 
     //POST : RentPayment/Create
@@ -40,29 +63,50 @@ namespace FirstProject.Controllers
 
         public ActionResult Create([Bind(Include = "Id,IsPaid,ContractId,PaymentDay")] RentPayment rentPayment)
         {
-            db.RentPayments.Add(rentPayment);
-            db.SaveChanges();
-            return View(rentPayment);   
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                db.RentPayments.Add(rentPayment);
+                db.SaveChanges();
+                return View(rentPayment);
+            }
         }
 
     //GET : RentPayment/Edit/5
         public ActionResult Edit(int? id)
         {
-            RentPayment rentPayment =db.RentPayments.Find(id);
-            return View(rentPayment);
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                RentPayment rentPayment = db.RentPayments.Find(id);
+                return View(rentPayment);
+            }
         }
 
     //POST : RentPayment/Edit/5
         [HttpPut]
         public ActionResult Edit([Bind(Include = "Id,IsPaid,ContractId,PaymentDay")] RentPayment rentPayment)
         {
-            if(ModelState.IsValid)
+            if (loginRestriction.IsRestricted() == true)
             {
-                db.Entry(rentPayment).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Login", "Users");
             }
-            return View(rentPayment);
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Entry(rentPayment).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(rentPayment);
+            }
 
         }
 
@@ -70,17 +114,31 @@ namespace FirstProject.Controllers
     //GET : RentPayment/Delete/5
         public ActionResult Delete(int? id)
         {
-            RentPayment rentPayment = db.RentPayments.Find(id);
-            return View(rentPayment);
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                RentPayment rentPayment = db.RentPayments.Find(id);
+                return View(rentPayment);
+            }
 
         }
     //Post: RentPayments/Delete/5
         public ActionResult DeleteConfirmed(int id)
         {
-            RentPayment rentPayment = db.RentPayments.Find(id);
-            db.RentPayments.Remove(rentPayment);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                RentPayment rentPayment = db.RentPayments.Find(id);
+                db.RentPayments.Remove(rentPayment);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
     }
         protected override void Dispose(bool disposing)
         {

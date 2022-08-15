@@ -8,33 +8,21 @@
 @using(Html.BeginForm())
  {
     <table>
-
-
-    
-
-
         <tr>
             <td>Name</td>
             <td>@Html.EditorFor(model => model.Name)</td>
         </tr>
-
-
         <tr>
             <td>Address</td>
             <td>@Html.EditorFor(model => model.Address)</td>
         </tr>
-
-
         <tr>
             <td>NumberOfFlats</td>
             <td>@Html.EditorFor(model => model.NumberOfFlats)</td>
         </tr>
-
-
         <tr>
             <input type="submit" value="Submit"/>
         </tr>
-
 
     </table>
 

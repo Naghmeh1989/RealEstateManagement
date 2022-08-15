@@ -8,24 +8,18 @@
 
 {
     <table>
-        <tr>
-            <td>Address</td>
-            <td>
-                @Html.DropDownList("buildings", (IEnumerable
-            <SelectListItem>)ViewData["BuildingsBag"])
-            </td>
-        </tr>
+       
         <tr>
             <td>FlatId</td>
             <td>
-                @Html.DropDownList("flats", (IEnumerable
+                @Html.DropDownListFor(model => model.FlatId, (IEnumerable
             <SelectListItem>)ViewData["FlatsBag"])
             </td>
         </tr>
         <tr>
             <td>AgencyId</td>
             <td>
-                @Html.DropDownList("agencies", (IEnumerable
+                @Html.DropDownListFor(model => model.AgencyId, (IEnumerable
             <SelectListItem>)ViewData["AgenciesBag"])
             </td>
         </tr>

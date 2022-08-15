@@ -29,8 +29,8 @@ namespace Data
         public virtual DbSet<Building> Buildings { get; set; }
         public virtual DbSet<Flat> Flats { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Contract> Contracts { get; set; }
         public virtual DbSet<RentPayment> RentPayments { get; set; }
         public virtual DbSet<Tenant> Tenants { get; set; }
+        public virtual DbSet<Contract> Contracts { get; set; }
     }
 }

@@ -20,13 +20,11 @@ namespace Data
             this.Contracts = new HashSet<Contract>();
         }
     
-        public int UserId { get; set; }
-        public string Name { get; set; }
-        public string LastName { get; set; }
         public int Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Contract> Contracts { get; set; }
-        public virtual User User { get; set; }
     }
 }

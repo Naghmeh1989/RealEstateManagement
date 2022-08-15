@@ -1,0 +1,41 @@
+﻿@model IEnumerable<FirstProject.ViewModels.IndexContractViewModel>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+<p>
+    @Html.ActionLink("Create", "Create New")
+</p>
+<table>
+    <tr>
+        <th>@Html.DisplayNameFor(model => model.BuildingName)</th>
+        <th>@Html.DisplayNameFor(model => model.FlatNumber)</th>
+        <th>@Html.DisplayNameFor(model => model.TenantFirstName)</th>
+        <th>@Html.DisplayNameFor(model => model.TenantLastName)</th>
+        <th>@Html.DisplayNameFor(model => model.StartDate)</th>
+        <th>@Html.DisplayNameFor(model => model.EndDate)</th>
+        <th>@Html.DisplayNameFor(model => model.PaymentDay)</th>
+        <th>@Html.DisplayNameFor(model => model.RentAmount)</th>
+    </tr>
+    @foreach (var item in Model)
+    {
+        <td>@Html.DisplayFor(modelItem => item.BuildingName)</td>
+        <td>@Html.DisplayFor(modelItem => item.FlatNumber)</td>
+        <td>@Html.DisplayFor(modelItem => item.TenantFirstName)</td>
+        <td>@Html.DisplayFor(modelItem => item.TenantLastName)</td>
+        <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+        <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
+        <td>@Html.DisplayFor(modelItem => item.PaymentDay)</td>
+        <td>@Html.DisplayFor(modelItem => item.RentAmount)</td>
+
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ContractId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ContractId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ContractId })
+        </td>
+
+    }
+</table>
+

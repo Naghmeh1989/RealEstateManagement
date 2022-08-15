@@ -20,15 +20,16 @@ namespace Data
             this.RentPayments = new HashSet<RentPayment>();
         }
     
+        public int Id { get; set; }
         public int FlatId { get; set; }
         public int TenantId { get; set; }
         public int AgencyId { get; set; }
-        public System.DateTime RentPaymentDay { get; set; }
+        public System.DateTime StartDate { get; set; }
         public System.DateTime EndDate { get; set; }
-        public int StartDate { get; set; }
+        public int RentPaymentDay { get; set; }
         public decimal RentAmount { get; set; }
-        public int Id { get; set; }
     
+        public virtual Agency Agency { get; set; }
         public virtual Flat Flat { get; set; }
         public virtual Tenant Tenant { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -1,0 +1,39 @@
+﻿@model FirstProject.ViewModels.DetailsContractViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+<p>
+    @Html.ActionLink("Create", "Create New", new{id = Model.ContractId })
+</p>
+<table>
+    <tr>
+        <td>
+            @Html.DisplayFor(model => model.BuildingName)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.FlatNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.TenantFirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.TenantLastName)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.StartDate)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.EndDate)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.PaymentDay)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.RentAmount)
+        </td>
+    </tr>
+</table>

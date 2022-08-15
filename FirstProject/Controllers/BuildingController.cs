@@ -6,29 +6,38 @@ using System.Web;
 using System.Web.Mvc;
 using System.Data.Entity;
 using FirstProject.ViewModels;
+using FirstProject.Business;
 
 namespace FirstProject.Controllers
 {
     public class BuildingController : Controller
     {
         private FirstProjectEntities db = new FirstProjectEntities();
-
+        private LoginRestriction loginRestriction = new LoginRestriction();
         // GET: Building
         public ActionResult Index()
         {
-            try
+            if (loginRestriction.IsRestricted() == true)
             {
-                IQueryable<BuildingViewModel> buildingViewModel = db.Buildings.Include(x => x.Flats).Select(buildingObj => new BuildingViewModel
-                {
-                    Name = buildingObj.Name,
-                    Address = buildingObj.Address,
-                    NumberOfFlats = (int)buildingObj.NumberOfFlats
-                });
-                return View(buildingViewModel);
+                return RedirectToAction("Login", "Users");
             }
-            catch(Exception ex)
+            else
             {
-                return null;
+                try
+                {
+                    IQueryable<BuildingViewModel> buildingViewModel = db.Buildings.Include(x => x.Flats).Select(buildingObj => new BuildingViewModel
+                    {
+                        Id = buildingObj.Id,
+                        Name = buildingObj.Name,
+                        Address = buildingObj.Address,
+                        NumberOfFlats = (int)buildingObj.NumberOfFlats
+                    });
+                    return View(buildingViewModel);
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
             }
         }
 
@@ -37,20 +46,28 @@ namespace FirstProject.Controllers
         // GET: Buildings/Details/5
         public ActionResult Details(int id)
         {
-            try
+            if (loginRestriction.IsRestricted() == true)
             {
-                var flatsAndBuildingViewModel = db.Buildings.Where(buildingObj => buildingObj.Id == id).Include(buildingObj => buildingObj.Flats).Select(buildingObj => new BuildingViewModel
-                {
-                    Flats = buildingObj.Flats.ToList(),
-                    Address = buildingObj.Address,
-                    Name = buildingObj.Name,
-                    NumberOfFlats = (int)buildingObj.NumberOfFlats,
-                }).First();
-                return View(flatsAndBuildingViewModel);
+                return RedirectToAction("Login", "Users");
             }
-            catch(Exception ex)
+            else
             {
-                return null;
+                try
+                {
+                    var flatsAndBuildingViewModel = db.Buildings.Where(buildingObj => buildingObj.Id == id).Include(buildingObj => buildingObj.Flats).Select(buildingObj => new BuildingViewModel
+                    {
+                        Id = buildingObj.Id,
+                        Flats = buildingObj.Flats.ToList(),
+                        Address = buildingObj.Address,
+                        Name = buildingObj.Name,
+                        NumberOfFlats = (int)buildingObj.NumberOfFlats,
+                    }).First();
+                    return View(flatsAndBuildingViewModel);
+                }
+                catch (Exception ex)
+                {
+                    return null;
+                }
             }
 
         }
@@ -58,69 +75,58 @@ namespace FirstProject.Controllers
         //GET: Buildings/Create
         public ActionResult Create()
         {
-            return View();
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                return View();
+            }
         }
         [HttpPost]
         public ActionResult Create([Bind(Include = "Name,Address,NumberOfFlats")] BuildingViewModel buildingViewModel)
         {
-            try
+            if (loginRestriction.IsRestricted() == true)
             {
-                Building buildingObj = new Building();
-                buildingObj.Name = buildingViewModel.Name;
-                buildingObj.Address = buildingViewModel.Address;
-                buildingObj.NumberOfFlats = buildingViewModel.NumberOfFlats;
-
-
-                db.Buildings.Add(buildingObj);
-                db.SaveChanges();
-
-                return View(buildingObj);
+                return RedirectToAction("Login", "Users");
             }
-            catch(Exception ex)
+            else
             {
-                return null;
+                try
+                {
+                    Building buildingObj = new Building();
+                    buildingObj.Name = buildingViewModel.Name;
+                    buildingObj.Address = buildingViewModel.Address;
+                    buildingObj.NumberOfFlats = buildingViewModel.NumberOfFlats;
 
+
+                    db.Buildings.Add(buildingObj);
+                    db.SaveChanges();
+
+                    return RedirectToAction("Index");
+                }
+                catch (Exception ex)
+                {
+                    return null;
+
+                }
             }
         }
 
         // GET: Buildings/CreateFlat/5
 
         public ActionResult CreateFlat(int? id)
-
         {
-
-            Building building = db.Buildings.Find(id);
-
-            return View(building);
-        }
-
-        [HttpPost]
-        public ActionResult CreateFlat([Bind(Include = "Number,Floor,Bedroom,Parking,PetAllowed,BillsIncluded,Furnished")] CreateFlatViewModel createFlatViewModel)
-        {
-            try
+            if (loginRestriction.IsRestricted() == true)
             {
-
-                Flat flat = new Flat();
-                flat.Number = createFlatViewModel.Number;
-                flat.Furnished = createFlatViewModel.Furnished;
-                flat.Parking = createFlatViewModel.Parking;
-                flat.PetAllowed = createFlatViewModel.PetAllowed;
-                flat.Bedroom = createFlatViewModel.Bedroom;
-                flat.BillsIncluded = createFlatViewModel.BillsIncluded;
-                flat.Floor = createFlatViewModel.Floor;
-                db.Flats.Add(flat);
-                db.SaveChanges();
-
-                return View(flat);
+                return RedirectToAction("Login", "Users");
             }
-            catch(Exception ex)
+            else
             {
-                return null;
+                return RedirectToAction("Create", "Flat", new { buildingId = id });
             }
-
         }
-
-
 
 
         // GET: Buildings/Edit/5
@@ -128,24 +134,38 @@ namespace FirstProject.Controllers
         public ActionResult Edit(int? id)
 
         {
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
 
-            Building building = db.Buildings.Find(id);
+                Building building = db.Buildings.Find(id);
 
-            return View(building);
+                return View(building);
+            }
         }
         //POST: Buildings/Edit/5
         [HttpPost]
 
         public ActionResult Edit([Bind(Include = "Id,Name,Address,NumberOfFlats")] Building building)
         {
-            if (ModelState.IsValid)
+            if (loginRestriction.IsRestricted() == true)
             {
-                db.Entry(building).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-
+                return RedirectToAction("Login", "Users");
             }
-            return View(building);
+            else
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Entry(building).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+
+                }
+                return View(building);
+            }
 
         }
 
@@ -153,19 +173,33 @@ namespace FirstProject.Controllers
         [HttpGet]
         public ActionResult Delete(int? id)
         {
-            Building building = db.Buildings.Find(id);
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                Building building = db.Buildings.Find(id);
 
-            return View(building);
+                return View(building);
+            }
         }
 
         //Post:Buildings/Delete/5
         [HttpPost]
         public ActionResult DeleteConfirmed(int id)
         {
-            Building building = db.Buildings.Find(id);
-            db.Buildings.Remove(building);
-            db.SaveChanges();
-            return RedirectToAction("Index");
+            if (loginRestriction.IsRestricted() == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                Building building = db.Buildings.Find(id);
+                db.Buildings.Remove(building);
+                db.SaveChanges();
+                return RedirectToAction("Index");
+            }
         }
         protected override void Dispose(bool disposing)
         {

@@ -18,7 +18,6 @@ namespace Data
         public User()
         {
             this.Agencies = new HashSet<Agency>();
-            this.Tenants = new HashSet<Tenant>();
         }
     
         public int Id { get; set; }
@@ -29,7 +28,5 @@ namespace Data
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Agency> Agencies { get; set; }
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Tenant> Tenants { get; set; }
     }
 }

@@ -11,16 +11,10 @@
     {
         <table>
 
-           
             <tr>
-                <td>BuildingName</td>
-                <td>
-                    @Html.DropDownList("Buildings", (IEnumerable
-                    <SelectListItem>)ViewData["BuildingsBag"])
-                </td>
-
+              
+                <td>@Html.HiddenFor(model => model.BuildingId, ViewData["BuildingId"])</td>
             </tr>
-           
             <tr>
                 <td>Floor</td>
                 <td>@Html.EditorFor(model => model.Floor)</td>

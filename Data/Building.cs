@@ -21,7 +21,7 @@ namespace Data
         }
     
         public int Id { get; set; }
-        public Nullable<int> NumberOfFlats { get; set; }
+        public int NumberOfFlats { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
     

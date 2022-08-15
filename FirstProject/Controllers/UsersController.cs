@@ -145,8 +145,14 @@ namespace FirstProject.Controllers
             try
             {
 
-                User user1 = db.Users.Where(x => x.Username == userViewModel.Username && x.Password == userViewModel.Password).FirstOrDefault();
-                if (user1 == null)
+                Agency agency = db.Agencies.Include(x => x.User).Where(x => x.User.Username == userViewModel.Username && x.User.Password == userViewModel.Password).FirstOrDefault();
+
+                if(agency != null)
+                {
+                    Session["agencyId"] = agency.Id;
+                }
+                
+                if (agency == null)
                 {
                     return HttpNotFound();
                 }

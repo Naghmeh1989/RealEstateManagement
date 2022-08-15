@@ -129,6 +129,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Business\LoginRestriction.cs" />
     <Compile Include="Controllers\AgencyController.cs" />
     <Compile Include="Controllers\BuildingController.cs" />
     <Compile Include="Controllers\ContractController.cs" />
@@ -149,7 +150,9 @@
     <Compile Include="ViewModels\CreateFlatViewModel.cs" />
     <Compile Include="ViewModels\CreateTenantViewModel.cs" />
     <Compile Include="ViewModels\DetailsAgencyViewModel.cs" />
+    <Compile Include="ViewModels\DetailsContractViewModel.cs" />
     <Compile Include="ViewModels\IndexAgencyViewModel.cs" />
+    <Compile Include="ViewModels\IndexContractViewModel.cs" />
     <Compile Include="ViewModels\IndexFlatViewModel.cs" />
     <Compile Include="ViewModels\IndexTenantViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
@@ -208,6 +211,8 @@
     <Content Include="Views\Flat\Index.cshtml" />
     <Content Include="Views\Building\Details.cshtml" />
     <Content Include="Views\Building\CreateFlat.cshtml" />
+    <Content Include="Views\Contract\Index.cshtml" />
+    <Content Include="Views\Contract\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
