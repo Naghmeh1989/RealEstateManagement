@@ -13,11 +13,11 @@ namespace FirstProject.Controllers
     public class ContractController : Controller
     { 
         private FirstProjectEntities db = new FirstProjectEntities();
-        private LoginRestriction loginRestriction = new LoginRestriction();
+        private LoginBusiness loginRestriction = new LoginBusiness();
         // GET: Contract
         public ActionResult Index()
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -59,7 +59,7 @@ namespace FirstProject.Controllers
         // GET:/Details/1
         public ActionResult Details(int? id)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -97,7 +97,7 @@ namespace FirstProject.Controllers
         //public ActionResult
         public ActionResult Create()
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -115,7 +115,7 @@ namespace FirstProject.Controllers
         [HttpPost]
         public ActionResult Create([Bind(Include = "FlatId,TenantFirstName,TenantLastName,AgencyID,RentAmount,RentPayDay,StartDate,EndDate")] CreateContractViewModel createContractViewModel)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -155,7 +155,7 @@ namespace FirstProject.Controllers
         public ActionResult Edit(int? id)
 
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -169,7 +169,7 @@ namespace FirstProject.Controllers
         [HttpPost]
         public ActionResult Edit([Bind(Include = "Id,TenantId,AgencyId,FlatId,RentAmount,RentPayDay,StartDate,EndDate")] Contract contract)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -189,7 +189,7 @@ namespace FirstProject.Controllers
         //GET: Contracts/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -204,7 +204,7 @@ namespace FirstProject.Controllers
         //Post:Contracts/Delete/5
         public ActionResult DeleteConfirmed(int id)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }

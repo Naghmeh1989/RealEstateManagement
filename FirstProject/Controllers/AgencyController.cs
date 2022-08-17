@@ -14,7 +14,7 @@ namespace FirstProject.Controllers
      public class AgencyController : Controller
     {
         private FirstProjectEntities db = new FirstProjectEntities();
-        private LoginRestriction loginRestriction = new LoginRestriction();
+        private LoginBusiness loginRestriction = new LoginBusiness();
 
         //private FirstProjectEntities db;
         //private string name;
@@ -37,7 +37,7 @@ namespace FirstProject.Controllers
             try
             {
                 
-                if (loginRestriction.IsRestricted() == true)
+                if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
                 {
                     return RedirectToAction("Login", "Users");
                 }
@@ -81,14 +81,28 @@ namespace FirstProject.Controllers
 
         public ActionResult Details(int? id)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
             else
             {
-                Agency agency = db.Agencies.Find(id);
-                return View(id);
+                try
+                {
+                    var agencyDetails = db.Agencies.Where(agencyObj => agencyObj.Id == id).Include(x => x.User).Select(agencyObj => new DetailsAgencyViewModel
+                    {
+                        AgencyId = agencyObj.Id,
+                        AgencyName = agencyObj.Name,
+                        UserId = agencyObj.UserId,
+                        UserName = agencyObj.User.Username
+
+                    });
+                    return View(agencyDetails);
+                }
+                catch(Exception ex)
+                {
+                    return null;
+                }
             }
         }
         // Get : Agencies/Create
@@ -130,7 +144,7 @@ namespace FirstProject.Controllers
         //Get : Agencies/Edit
         public ActionResult Edit(int? id)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -144,7 +158,7 @@ namespace FirstProject.Controllers
         [HttpPut]
         public ActionResult Edit([Bind(Include = "Id, Name, UserId")]Agency agency)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -159,7 +173,7 @@ namespace FirstProject.Controllers
         [HttpDelete, ActionName("Delete")]
         public ActionResult Delete(int? id)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -168,6 +182,7 @@ namespace FirstProject.Controllers
 
                 try
                 {
+                    
                     Agency agency = db.Agencies.Find(id);
                     db.Agencies.Remove(agency);
                     db.SaveChanges();

@@ -13,12 +13,12 @@ namespace FirstProject.Controllers
     public class FlatController : Controller
     {
         private FirstProjectEntities db = new FirstProjectEntities();
-        private LoginRestriction loginRestriction = new LoginRestriction();
+        private LoginBusiness loginRestriction = new LoginBusiness();
 
         // GET: Flat
         public ActionResult Index()
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -53,14 +53,33 @@ namespace FirstProject.Controllers
         // GET: Flats/Details/5
         public ActionResult Details(int? id)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
             else
             {
-                Flat flat = db.Flats.Find(id);
-                return View(flat);
+                try
+                {
+                    var flatDetails = db.Flats.Include(x => x.Building).Where(flatObj => flatObj.Id == id).Select(flatObj => new DetailsFlatViewModel
+                    {
+                        BuildingAddress = flatObj.Building.Address,
+                        BuildingName = flatObj.Building.Name,
+                        Floor = flatObj.Floor,
+                        Number = flatObj.Number,
+                        Bedroom = (int)flatObj.Bedroom,
+                        Furnished = (bool)flatObj.Furnished,
+                        BillsIncluded = (bool)flatObj.BillsIncluded,
+                        Parking = (bool)flatObj.Parking,
+
+                    });
+                    return View(flatDetails);
+                }
+                catch(Exception ex)
+                {
+                    return null;
+                }
+
             }
 
         }
@@ -70,7 +89,7 @@ namespace FirstProject.Controllers
         //GET: Flats/Create
         public ActionResult Create(int? buildingId)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -83,7 +102,7 @@ namespace FirstProject.Controllers
         [HttpPost]
         public ActionResult Create([Bind(Include = "BuildingId,Number,Floor,Bedroom,Parking,PetAllowed,BillsIncluded,Furnished")] CreateFlatViewModel createFlatViewModel)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -113,7 +132,7 @@ namespace FirstProject.Controllers
         public ActionResult Edit(int? id)
 
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -129,7 +148,7 @@ namespace FirstProject.Controllers
 
         public ActionResult Edit([Bind(Include = "Id,BuildingId,Number,Floor,Bedroom,Parking,PetAllowed,BillsIncluded,Furnished")] Flat flat)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -150,7 +169,7 @@ namespace FirstProject.Controllers
         //GET: Flats/Delete/5
         public ActionResult Delete(int? id)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -166,7 +185,7 @@ namespace FirstProject.Controllers
         //Post:Flats/Delete/5
         public ActionResult DeleteConfirmed(int id)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }

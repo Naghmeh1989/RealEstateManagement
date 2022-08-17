@@ -8,10 +8,10 @@
 <p>
     @Html.ActionLink("Create", "Create New")
 </p>
-<table>
+<table class="table">
     <tr>
 
-        <th>@Html.DisplayNameFor(model => model.BuildingAddress)</th>
+        <th colspan="3">@Html.DisplayNameFor(model => model.BuildingAddress)</th>
         <th>@Html.DisplayNameFor(model => model.BuildingName)</th>
         <th>@Html.DisplayNameFor(model => model.Floor)</th>
         <th>@Html.DisplayNameFor(model => model.Number)</th>
@@ -24,7 +24,7 @@
     @foreach (var item in Model)
     {
         <tr>
-            <td>@Html.DisplayFor(modelItem => item.BuildingAddress)</td>
+            <td colspan="3">@Html.DisplayFor(modelItem => item.BuildingAddress)</td>
             <td>@Html.DisplayFor(modelItem => item.BuildingName)</td>
             <td>@Html.DisplayFor(modelItem => item.Floor)</td>
             <td>@Html.DisplayFor(modelItem => item.Number)</td>

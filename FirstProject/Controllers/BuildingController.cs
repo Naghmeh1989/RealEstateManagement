@@ -13,11 +13,11 @@ namespace FirstProject.Controllers
     public class BuildingController : Controller
     {
         private FirstProjectEntities db = new FirstProjectEntities();
-        private LoginRestriction loginRestriction = new LoginRestriction();
+        private LoginBusiness loginRestriction = new LoginBusiness();
         // GET: Building
         public ActionResult Index()
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -46,36 +46,40 @@ namespace FirstProject.Controllers
         // GET: Buildings/Details/5
         public ActionResult Details(int id)
         {
-            if (loginRestriction.IsRestricted() == true)
-            {
-                return RedirectToAction("Login", "Users");
-            }
-            else
-            {
-                try
+        //    var agency = new Agency();
+        //    agency.Id = id;
+        //    Session["agencyId"] = id;
+
+                if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
                 {
-                    var flatsAndBuildingViewModel = db.Buildings.Where(buildingObj => buildingObj.Id == id).Include(buildingObj => buildingObj.Flats).Select(buildingObj => new BuildingViewModel
+                    return RedirectToAction("Login", "Users");
+                }
+                else
+                {
+                    try
                     {
-                        Id = buildingObj.Id,
-                        Flats = buildingObj.Flats.ToList(),
-                        Address = buildingObj.Address,
-                        Name = buildingObj.Name,
-                        NumberOfFlats = (int)buildingObj.NumberOfFlats,
-                    }).First();
-                    return View(flatsAndBuildingViewModel);
+                        var flatsAndBuildingViewModel = db.Buildings.Where(buildingObj => buildingObj.Id == id).Include(buildingObj => buildingObj.Flats).Select(buildingObj => new BuildingViewModel
+                        {
+                            Id = buildingObj.Id,
+                            Flats = buildingObj.Flats.ToList(),
+                            Address = buildingObj.Address,
+                            Name = buildingObj.Name,
+                            NumberOfFlats = (int)buildingObj.NumberOfFlats,
+                        }).First();
+                        return View(flatsAndBuildingViewModel);
+                    }
+                    catch (Exception ex)
+                    {
+                        return null;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    return null;
-                }
-            }
 
         }
 
         //GET: Buildings/Create
         public ActionResult Create()
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -87,7 +91,7 @@ namespace FirstProject.Controllers
         [HttpPost]
         public ActionResult Create([Bind(Include = "Name,Address,NumberOfFlats")] BuildingViewModel buildingViewModel)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -118,7 +122,7 @@ namespace FirstProject.Controllers
 
         public ActionResult CreateFlat(int? id)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -134,7 +138,8 @@ namespace FirstProject.Controllers
         public ActionResult Edit(int? id)
 
         {
-            if (loginRestriction.IsRestricted() == true)
+
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -151,7 +156,7 @@ namespace FirstProject.Controllers
 
         public ActionResult Edit([Bind(Include = "Id,Name,Address,NumberOfFlats")] Building building)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -173,7 +178,7 @@ namespace FirstProject.Controllers
         [HttpGet]
         public ActionResult Delete(int? id)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
@@ -189,7 +194,7 @@ namespace FirstProject.Controllers
         [HttpPost]
         public ActionResult DeleteConfirmed(int id)
         {
-            if (loginRestriction.IsRestricted() == true)
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }

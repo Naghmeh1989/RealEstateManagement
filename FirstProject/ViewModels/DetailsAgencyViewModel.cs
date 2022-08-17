@@ -7,6 +7,9 @@ namespace FirstProject.ViewModels
 {
     public class DetailsAgencyViewModel
     {
-        public int Id { get; set; }
+        public string AgencyName { get; set; }
+        public int AgencyId { get; set; }
+        public int UserId { get; set; }
+        public string UserName { get; set; }
     }
 }

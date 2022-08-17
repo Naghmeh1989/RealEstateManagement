@@ -1,0 +1,26 @@
+﻿@model FirstProject.ViewModels.DetailsAgencyViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+
+
+<table class="table">
+    <tr>
+        <td colspan="3">
+            @Html.DisplayFor(model => model.AgencyName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(model => model.UserName)
+        </td>
+
+        <td>
+            @Html.DisplayFor(model => model.UserId)
+        </td>
+
+
+    </tr>
+ </table>

@@ -8,9 +8,9 @@
 <p>
     @Html.ActionLink("Create", "Create New")
 </p>
-<table>
+<table class="table">
     <tr>
-        <th>@Html.DisplayNameFor(model => model.BuildingName)</th>
+        <th colspan="3">@Html.DisplayNameFor(model => model.BuildingName)</th>
         <th>@Html.DisplayNameFor(model => model.FlatNumber)</th>
         <th>@Html.DisplayNameFor(model => model.TenantFirstName)</th>
         <th>@Html.DisplayNameFor(model => model.TenantLastName)</th>
@@ -21,7 +21,7 @@
     </tr>
     @foreach (var item in Model)
     {
-        <td>@Html.DisplayFor(modelItem => item.BuildingName)</td>
+        <td colspan="3">@Html.DisplayFor(modelItem => item.BuildingName)</td>
         <td>@Html.DisplayFor(modelItem => item.FlatNumber)</td>
         <td>@Html.DisplayFor(modelItem => item.TenantFirstName)</td>
         <td>@Html.DisplayFor(modelItem => item.TenantLastName)</td>

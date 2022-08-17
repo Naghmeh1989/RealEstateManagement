@@ -1,0 +1,39 @@
+﻿@model FirstProject.ViewModels.DetailsFlatViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+<p>
+    @Html.ActionLink("Create", "Create New", new { id = Model.FlatId })
+</p>
+
+<table class="table">
+    <tr>
+        <td colspan="3">
+            @Html.DisplayFor(model => model.BuildingAddress)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.BuildingName)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Floor)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Number)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Bedroom)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Furnished)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.BillsIncluded)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.Parking)
+        </td>
+    </tr>
+</table>
