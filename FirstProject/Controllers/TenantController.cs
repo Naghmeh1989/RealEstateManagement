@@ -38,7 +38,7 @@ namespace FirstProject.Controllers
             {
                 try
                 {
-                    var tenantViewModel = db.Tenants.Include(tenantObj => tenantObj.Contracts).Select(tenantObj => new IndexTenantViewModel
+                    var tenantViewModel = db.Tenants.Select(tenantObj => new IndexTenantViewModel
                     {
 
                         TenantFirstName = tenantObj.FirstName,
@@ -68,16 +68,14 @@ namespace FirstProject.Controllers
             }
             else
             {
-                if (id == null)
+                var tenantDetails = db.Tenants.Where(tenantObj => tenantObj.Id == id).Select(tenantObj => new DetailsTenantViewModel
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Tenant tenant = db.Tenants.Find(id);
-                if (tenant == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(tenant);
+                    TenantFirstName=tenantObj.FirstName,
+                    TenantLastName=tenantObj.LastName,
+                
+                }).First();
+                return View(tenantDetails);
+           
             }
 
         }
@@ -95,7 +93,7 @@ namespace FirstProject.Controllers
             }
         }
         [HttpPost]
-        public ActionResult Create([Bind(Include = "Password,Username,TenantLastName,TenantFirstName")] CreateTenantViewModel createTenantViewModel)
+        public ActionResult Create([Bind(Include = "TenantLastName,TenantFirstName")] CreateTenantViewModel createTenantViewModel)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
@@ -106,20 +104,18 @@ namespace FirstProject.Controllers
                 try
                 {
 
+                    Tenant tenant = new Tenant();
+                    
+                    tenant.FirstName = createTenantViewModel.TenantFirstName;
+                    tenant.LastName = createTenantViewModel.TenantLastName;
+              
+               
+                
 
-                    User user = new User();
-                    user.Username = createTenantViewModel.UserName;
-
-                    user.Password = createTenantViewModel.Password;
-                    Tenant tenantObj = new Tenant();
-
-                    tenantObj.FirstName = createTenantViewModel.TenantFirstName;
-                    tenantObj.LastName = createTenantViewModel.TenantLastName;
-
-                    db.Tenants.Add(tenantObj);
+                    db.Tenants.Add(tenant);
                     db.SaveChanges();
 
-                    return View(tenantObj);
+                    return RedirectToAction("Index");
                 }
                 catch (Exception ex)
                 {
@@ -175,29 +171,31 @@ namespace FirstProject.Controllers
         }
 
         //GET: Tenants/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
-            {
-                return RedirectToAction("Login", "Users");
-            }
-            else
-            {
-                if (id == null)
-                {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Tenant tenant = db.Tenants.Find(id);
-                if (tenant == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(tenant);
-            }
-        }
+        //[HttpGet, ActionName("Delete")]
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
+        //    {
+        //        return RedirectToAction("Login", "Users");
+        //    }
+        //    else
+        //    {
+        //        if (id == null)
+        //        {
+        //            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
+        //        }
+        //        Tenant tenant = db.Tenants.Find(id);
+        //        if (tenant == null)
+        //        {
+        //            return HttpNotFound();
+        //        }
+        //        return View(tenant);
+        //    }
+        //}
 
         //Post:Tenants/Delete/5
-        public ActionResult DeleteConfirmed(int id)
+        [HttpGet, ActionName("Delete")]
+        public ActionResult Delete(int? id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {

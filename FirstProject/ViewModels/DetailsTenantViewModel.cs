@@ -5,18 +5,12 @@ using System.Web;
 
 namespace FirstProject.ViewModels
 {
-    public class IndexTenantViewModel
+    public class DetailsTenantViewModel
     {
         public int TenantId { get; set; }
         public string TenantFirstName { get; set; }
         public string TenantLastName { get; set; }
+       
         
-        public int FlatNumber { get; set; }
-        public int BuildingId { get; set; }
-        public int FlatId { get; set; }
-        public string BuildingAddress { get; set; }
-
-
-
     }
 }

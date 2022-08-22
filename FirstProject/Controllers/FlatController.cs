@@ -72,7 +72,7 @@ namespace FirstProject.Controllers
                         BillsIncluded = (bool)flatObj.BillsIncluded,
                         Parking = (bool)flatObj.Parking,
 
-                    });
+                    }).First();
                     return View(flatDetails);
                 }
                 catch(Exception ex)
@@ -108,20 +108,27 @@ namespace FirstProject.Controllers
             }
             else
             {
-                Flat flat = new Flat();
-                flat.BuildingId = createFlatViewModel.BuildingId;
-                flat.Number = createFlatViewModel.Number;
-                flat.Furnished = createFlatViewModel.Furnished;
-                flat.Parking = createFlatViewModel.Parking;
-                flat.PetAllowed = createFlatViewModel.PetAllowed;
-                flat.Bedroom = createFlatViewModel.Bedroom;
-                flat.BillsIncluded = createFlatViewModel.BillsIncluded;
-                flat.Floor = createFlatViewModel.Floor;
-                db.Flats.Add(flat);
-                db.SaveChanges();
+                try
+                {
+                    Flat flat = new Flat();
+                    flat.BuildingId = createFlatViewModel.BuildingId;
+                    flat.Number = createFlatViewModel.Number;
+                    flat.Furnished = createFlatViewModel.Furnished;
+                    flat.Parking = createFlatViewModel.Parking;
+                    flat.PetAllowed = createFlatViewModel.PetAllowed;
+                    flat.Bedroom = createFlatViewModel.Bedroom;
+                    flat.BillsIncluded = createFlatViewModel.BillsIncluded;
+                    flat.Floor = createFlatViewModel.Floor;
+                    db.Flats.Add(flat);
+                    db.SaveChanges();
 
-                return RedirectToAction("Details", "Building", new { id = createFlatViewModel.BuildingId });
+                    return RedirectToAction("Details", "Building", new { id = createFlatViewModel.BuildingId });
 
+                }
+                catch(Exception ex)
+                {
+                    return null;
+                }
             }
         }
 
@@ -167,23 +174,24 @@ namespace FirstProject.Controllers
         }
 
         //GET: Flats/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
-            {
-                return RedirectToAction("Login", "Users");
-            }
-            else
-            {
-                Flat flat = db.Flats.Find(id);
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
+        //    {
+        //        return RedirectToAction("Login", "Users");
+        //    }
+        //    else
+        //    {
+        //        Flat flat = db.Flats.Find(id);
 
-                return View(flat);
-            }
-        }
+        //        return View(flat);
+        //    }
+        //}
 
 
         //Post:Flats/Delete/5
-        public ActionResult DeleteConfirmed(int id)
+        [HttpGet, ActionName("Delete")]
+        public ActionResult Delete(int id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {

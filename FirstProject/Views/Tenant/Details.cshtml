@@ -1,0 +1,30 @@
+﻿@model FirstProject.ViewModels.DetailsTenantViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+<p>
+    @Html.ActionLink("Create", "Create New", new { id = Model.TenantId })
+</p>
+
+<table class="table">
+    <tr>
+        <th colspan="3">
+            @Html.DisplayNameFor(model => model.TenantFirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TenantLastName)
+        </th>
+    </tr>
+    <tr>
+        <td colspan="3">
+            @Html.DisplayFor(model => model.TenantFirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.TenantLastName)
+        </td>
+    </tr>
+</table>
+

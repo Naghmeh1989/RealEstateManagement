@@ -7,6 +7,8 @@ using System.Web;
 using System.Web.Mvc;
 using FirstProject.ViewModels;
 using FirstProject.Business;
+using System.Data;
+using System.Net;
 
 namespace FirstProject.Controllers
 {
@@ -89,14 +91,14 @@ namespace FirstProject.Controllers
             {
                 try
                 {
-                    var agencyDetails = db.Agencies.Where(agencyObj => agencyObj.Id == id).Include(x => x.User).Select(agencyObj => new DetailsAgencyViewModel
+                    var agencyDetails = db.Agencies.Include(x => x.User).Where(agencyObj => agencyObj.Id == id).Select(agencyObj => new DetailsAgencyViewModel
                     {
                         AgencyId = agencyObj.Id,
                         AgencyName = agencyObj.Name,
                         UserId = agencyObj.UserId,
                         UserName = agencyObj.User.Username
 
-                    });
+                    }).First();
                     return View(agencyDetails);
                 }
                 catch(Exception ex)
@@ -170,7 +172,7 @@ namespace FirstProject.Controllers
             }
         }
         //Agencies/Delete
-        [HttpDelete, ActionName("Delete")]
+        [HttpGet, ActionName("Delete")]
         public ActionResult Delete(int? id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)

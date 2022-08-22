@@ -152,6 +152,7 @@
     <Compile Include="ViewModels\DetailsAgencyViewModel.cs" />
     <Compile Include="ViewModels\DetailsContractViewModel.cs" />
     <Compile Include="ViewModels\DetailsFlatViewModel.cs" />
+    <Compile Include="ViewModels\DetailsTenantViewModel.cs" />
     <Compile Include="ViewModels\IndexAgencyViewModel.cs" />
     <Compile Include="ViewModels\IndexContractViewModel.cs" />
     <Compile Include="ViewModels\IndexFlatViewModel.cs" />
@@ -216,6 +217,8 @@
     <Content Include="Views\Contract\Details.cshtml" />
     <Content Include="Views\Agency\Details.cshtml" />
     <Content Include="Views\Flat\Details.cshtml" />
+    <Content Include="Views\Agency\Delete.cshtml" />
+    <Content Include="Views\Tenant\Details.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

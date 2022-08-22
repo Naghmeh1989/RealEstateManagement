@@ -21,12 +21,7 @@ namespace FirstProject.Controllers
             {
                 return RedirectToAction("Login", "Users");
             }
-            else
-            {
-                if (Session["userId"] == null)
-                {
-                    return RedirectToAction("Login", "Users");
-                }
+            else { 
                 try
                 {
                     var contractViewModel = db.Contracts.Include(x => x.Flat).Select(contractObj => new IndexContractViewModel
@@ -187,21 +182,22 @@ namespace FirstProject.Controllers
 
         }
         //GET: Contracts/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
-            {
-                return RedirectToAction("Login", "Users");
-            }
-            else
-            {
+        //public ActionResult Delete(int? id)
+        //{
+        //    if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
+        //    {
+        //        return RedirectToAction("Login", "Users");
+        //    }
+        //    else
+        //    {
 
-                Contract contract = db.Contracts.Find(id);
+        //        Contract contract = db.Contracts.Find(id);
 
-                return View(contract);
-            }
-        }
+        //        return View(contract);
+        //    }
+        //}
         //Post:Contracts/Delete/5
+        [HttpGet, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)

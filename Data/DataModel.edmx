@@ -9,18 +9,18 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="UserId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Building">
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="NumberOfFlats" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="NumberOfFlats" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Address" Type="nvarchar" MaxLength="200" Nullable="false" />
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
         <EntityType Name="Contract">
           <Key>
@@ -39,7 +39,6 @@
           <Key>
             <PropertyRef Name="Id" />
           </Key>
-          <Property Name="BuildingId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Number" Type="int" Nullable="false" />
           <Property Name="Floor" Type="int" Nullable="false" />
           <Property Name="Bedroom" Type="int" />
@@ -47,7 +46,8 @@
           <Property Name="PetAllowed" Type="bit" />
           <Property Name="BillsIncluded" Type="bit" />
           <Property Name="Furnished" Type="bit" />
-          <Property Name="Id" Type="int" Nullable="false" />
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="BuildingId" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="RentPayment">
           <Key>
@@ -76,20 +76,10 @@
           <Property Name="Password" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
         </EntityType>
-        <Association Name="FK_Agency_User">
-          <End Role="User" Type="Self.User" Multiplicity="1" />
-          <End Role="Agency" Type="Self.Agency" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="User">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Agency">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Contract_Agency">
-          <End Role="Agency" Type="Self.Agency" Multiplicity="1" />
+          <End Role="Agency" Type="Self.Agency" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Agency">
@@ -97,30 +87,6 @@
             </Principal>
             <Dependent Role="Contract">
               <PropertyRef Name="AgencyId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Contract_Flat">
-          <End Role="Flat" Type="Self.Flat" Multiplicity="1" />
-          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Flat">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Contract">
-              <PropertyRef Name="FlatId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Contract_Tenant">
-          <End Role="Tenant" Type="Self.Tenant" Multiplicity="1" />
-          <End Role="Contract" Type="Self.Contract" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Tenant">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Contract">
-              <PropertyRef Name="TenantId" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -137,7 +103,9 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RentPayment_Contract">
-          <End Role="Contract" Type="Self.Contract" Multiplicity="1" />
+          <End Role="Contract" Type="Self.Contract" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
           <End Role="RentPayment" Type="Self.RentPayment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Contract">
@@ -156,20 +124,8 @@
           <EntitySet Name="RentPayment" EntityType="Self.RentPayment" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Tenant" EntityType="Self.Tenant" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="User" EntityType="Self.User" Schema="dbo" store:Type="Tables" />
-          <AssociationSet Name="FK_Agency_User" Association="Self.FK_Agency_User">
-            <End Role="User" EntitySet="User" />
-            <End Role="Agency" EntitySet="Agency" />
-          </AssociationSet>
           <AssociationSet Name="FK_Contract_Agency" Association="Self.FK_Contract_Agency">
             <End Role="Agency" EntitySet="Agency" />
-            <End Role="Contract" EntitySet="Contract" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Contract_Flat" Association="Self.FK_Contract_Flat">
-            <End Role="Flat" EntitySet="Flat" />
-            <End Role="Contract" EntitySet="Contract" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Contract_Tenant" Association="Self.FK_Contract_Tenant">
-            <End Role="Tenant" EntitySet="Tenant" />
             <End Role="Contract" EntitySet="Contract" />
           </AssociationSet>
           <AssociationSet Name="FK_Flat_Building" Association="Self.FK_Flat_Building">

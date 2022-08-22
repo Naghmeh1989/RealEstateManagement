@@ -175,35 +175,45 @@ namespace FirstProject.Controllers
         }
 
         //GET: Buildings/Delete/5
-        [HttpGet]
+        //[HttpGet]
+        ////public ActionResult Delete(int? id)
+        ////{
+        ////    if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
+        ////    {
+        ////        return RedirectToAction("Login", "Users");
+        ////    }
+        ////    else
+        ////    {
+        ////        Building building = db.Buildings.Find(id);
+
+        ////        return View(building);
+        ////    }
+        ////}
+
+        ////Post:Buildings/Delete/5
+        ////[HttpPost]
+        [HttpGet, ActionName("Delete")]
         public ActionResult Delete(int? id)
         {
+
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
             else
             {
-                Building building = db.Buildings.Find(id);
+                try
+                {
+                    Building building = db.Buildings.Find(id);
+                    db.Buildings.Remove(building);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
 
-                return View(building);
-            }
-        }
-
-        //Post:Buildings/Delete/5
-        [HttpPost]
-        public ActionResult DeleteConfirmed(int id)
-        {
-            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
-            {
-                return RedirectToAction("Login", "Users");
-            }
-            else
-            {
-                Building building = db.Buildings.Find(id);
-                db.Buildings.Remove(building);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                catch (Exception ex)
+                {
+                    return null;
+                }
             }
         }
         protected override void Dispose(bool disposing)
