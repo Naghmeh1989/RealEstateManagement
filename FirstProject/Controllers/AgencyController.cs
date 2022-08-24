@@ -152,23 +152,37 @@ namespace FirstProject.Controllers
             }
             else
             {
-                Agency agency = db.Agencies.Find(id);
+                var agency = db.Agencies.Where(agencyObj => agencyObj.Id == id).Select(agencyObj => new EditAgencyViewModel
+                {
+                    AgencyName = agencyObj.Name
+                }).First();
                 return View(agency);
             }
         }
         //Post : Agencies/Edit
-        [HttpPut]
-        public ActionResult Edit([Bind(Include = "Id, Name, UserId")]Agency agency)
+        [HttpPost]
+      
+
+        public ActionResult Edit([Bind(Include = "AgencyName,Id,UserId")]EditAgencyViewModel editAgencyViewModel)
         {
-            if (loginRestriction.IsRestricted((int)Session["agencyId"]) == true)
+            try
             {
-                return RedirectToAction("Login", "Users");
+                if (loginRestriction.IsRestricted((int)Session["agencyId"]) == true)
+                {
+                    return RedirectToAction("Login", "Users");
+                }
+                else
+                {
+                  
+                        db.Entry(editAgencyViewModel).State = EntityState.Modified;
+                        db.SaveChanges();
+                        return RedirectToAction("Index");
+                    
+                }
             }
-            else
+            catch(Exception ex)
             {
-                db.Entry(agency).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                return null;
             }
         }
         //Agencies/Delete

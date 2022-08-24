@@ -1,0 +1,30 @@
+﻿@model FirstProject.ViewModels.EditAgencyViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+@using (Html.BeginForm())
+
+{
+    <table>
+   
+          
+        <tr>
+            <td>
+                AgencyName
+            </td>
+            <td>
+                @Html.EditorFor(model => model.AgencyName)
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="submit" value="Login" />
+            </td>
+        </tr>
+
+    </table>
+}
+

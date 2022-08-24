@@ -1,0 +1,17 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+using Data;
+
+namespace FirstProject.ViewModels
+{
+    public class EditBuildingViewModel
+    {
+        
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public int NumberOfFlats { get; set; }
+        public List<Flat> Flats { get; set; }
+    }
+}
