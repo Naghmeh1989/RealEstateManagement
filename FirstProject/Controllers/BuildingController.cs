@@ -145,16 +145,30 @@ namespace FirstProject.Controllers
             }
             else
             {
+                
+               
 
-                Building building = db.Buildings.Find(id);
+                var editBuilding = db.Buildings.Include(buildingObj => buildingObj.Flats).Where(buildingObj => buildingObj.Id == id).Select(buildingObj => new EditBuildingViewModel
+                {
+                    Name = buildingObj.Name,
+                    Address = buildingObj.Address,
+                    NumberOfFlats = buildingObj.NumberOfFlats,  
+                    Flats = (List<Flat>)buildingObj.Flats.ToList(),
+                    
+                   
+                    
+                     
 
-                return View(building);
+
+                
+
+
+            }).First();
+
+                return View(editBuilding);
             }
         }
-        //POST: Buildings/Edit/5
-        [HttpPost]
-
-        public ActionResult Edit([Bind(Include = "Id,Name,Address,NumberOfFlats")] Building building)
+        public ActionResult EditFlat(int? id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
@@ -162,14 +176,38 @@ namespace FirstProject.Controllers
             }
             else
             {
-                if (ModelState.IsValid)
-                {
-                    db.Entry(building).State = EntityState.Modified;
+                return RedirectToAction("Edit", "Flat", new { Id = id });
+            }
+        }
+
+
+
+
+        //POST: Buildings/Edit/5
+        [HttpPost]
+
+        public ActionResult Edit([Bind(Include = "Id,Number,Floor,Bedroom,Parking,PetAllowed,BillsIncluded,Furnished,Name,Address,NumberOfFlats")] EditBuildingViewModel editBuildingViewModel ,int id)
+        {
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                var editBuilding = db.Buildings.Where(buildingObj => buildingObj.Id == id).First();
+
+                editBuilding.Address = editBuildingViewModel.Address;
+                editBuilding.Name = editBuildingViewModel.Name;
+                editBuilding.NumberOfFlats = editBuildingViewModel.NumberOfFlats;
+
+
+
+
+
+                db.Entry(editBuilding).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
 
-                }
-                return View(building);
             }
 
         }

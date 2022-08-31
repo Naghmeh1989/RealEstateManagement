@@ -11,12 +11,12 @@
         <EntityTypeShape EntityType="FirstProjectModel.User" Width="1.5" PointX="0.75" PointY="2.625" IsExpanded="true" />
         <AssociationConnector Association="FirstProjectModel.FK_Agency_User1" ManuallyRouted="false" />
         <AssociationConnector Association="FirstProjectModel.FK_Flat_Building" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="FirstProjectModel.RentPayment" Width="1.5" PointX="7.5" PointY="6.75" />
         <EntityTypeShape EntityType="FirstProjectModel.Tenant" Width="1.5" PointX="5.375" PointY="0.875" />
         <EntityTypeShape EntityType="FirstProjectModel.Contract" Width="1.5" PointX="7.625" PointY="2.125" />
         <AssociationConnector Association="FirstProjectModel.FK_Contract_Agency" />
         <AssociationConnector Association="FirstProjectModel.FK_Contract_Flat" />
         <AssociationConnector Association="FirstProjectModel.FK_Contract_Tenant" />
+        <EntityTypeShape EntityType="FirstProjectModel.RentPayment" Width="1.5" PointX="3.375" PointY="4.75" />
         <AssociationConnector Association="FirstProjectModel.FK_RentPayment_Contract" />
       </Diagram>
     </edmx:Diagrams>

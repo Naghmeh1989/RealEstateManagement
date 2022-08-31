@@ -1,0 +1,33 @@
+﻿@model FirstProject.ViewModels.EditRentPaymentViewModel
+@{
+    ViewBag.Title = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Edit</h2>
+<p>
+    @Html.ActionLink("Edit Flat", "EditFlat", new { id = Model.Id })
+</p>
+@using (Html.BeginForm())
+{
+    <table>
+        <tr>
+            <td>PaymentDate</td>
+            <td>@Html.EditorFor(model => model.PaymentDate)</td>
+        </tr>
+        <tr>
+            <td>IsPaid</td>
+            <td>@Html.EditorFor(model => model.IsPaid)</td>
+        </tr>
+
+
+
+        <tr>
+            <input type="submit" value="Submit" />
+        </tr>
+
+    </table>
+
+
+}
+

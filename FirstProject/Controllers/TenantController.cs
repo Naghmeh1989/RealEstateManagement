@@ -135,22 +135,18 @@ namespace FirstProject.Controllers
             }
             else
             {
-                if (id == null)
+                var editTenant = db.Tenants.Where(tenantObj => tenantObj.Id == id).Select(tenantObj => new EditTenantViewModel
                 {
-                    return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-                }
-                Tenant tenant = db.Tenants.Find(id);
-                if (tenant == null)
-                {
-                    return HttpNotFound();
-                }
-                return View(tenant);
+                    TenantFirstName = tenantObj.FirstName,
+                    TenantLastName = tenantObj.LastName,
+                }).First();
+                return View(editTenant);
             }
         }
         //POST: Tenants/Edit/5
         [HttpPost]
 
-        public ActionResult Edit([Bind(Include = "Id,UserId,Name,LastName,ContractId")]Tenant tenant)
+        public ActionResult Edit([Bind(Include = "TenantFirstName,TenantLastName")]EditTenantViewModel editTenantViewModel,int id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
@@ -158,14 +154,16 @@ namespace FirstProject.Controllers
             }
             else
             {
-                if (ModelState.IsValid)
-                {
+                var tenant = db.Tenants.Where(tenantObj => tenantObj.Id==id).First();
+                tenant.FirstName = editTenantViewModel.TenantFirstName;
+                tenant.LastName = editTenantViewModel.TenantLastName;
+                
+                
                     db.Entry(tenant).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
 
-                }
-                return View(tenant);
+               
             }
 
         }

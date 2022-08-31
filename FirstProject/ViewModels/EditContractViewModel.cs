@@ -14,7 +14,8 @@ namespace FirstProject.ViewModels
     
         public string TenantLastName { get; set; }
 
-        public string Address { get; set; }
+        public string BuildingName { get; set; }
+        public int FlatNumber { get; set; }
 
         public string TenantFirstName { get; set; }
         public DateTime StartDate { get; set; }

@@ -155,15 +155,17 @@ namespace FirstProject.Controllers
                 var agency = db.Agencies.Where(agencyObj => agencyObj.Id == id).Select(agencyObj => new EditAgencyViewModel
                 {
                     AgencyName = agencyObj.Name
+                    
                 }).First();
                 return View(agency);
             }
         }
         //Post : Agencies/Edit
         [HttpPost]
-      
+        
 
-        public ActionResult Edit([Bind(Include = "AgencyName,Id,UserId")]EditAgencyViewModel editAgencyViewModel)
+
+        public ActionResult Edit([Bind(Include = "AgencyName,Id,UserId")] EditAgencyViewModel editAgencyViewModel, int id)
         {
             try
             {
@@ -173,11 +175,24 @@ namespace FirstProject.Controllers
                 }
                 else
                 {
-                  
-                        db.Entry(editAgencyViewModel).State = EntityState.Modified;
+                    var editAgency = db.Agencies.Include(agencyObj => agencyObj.User).Where(agencyObj => agencyObj.Id == id).First();
+
+
+
+
+                    editAgency.Name = editAgencyViewModel.AgencyName;
+                    
+                    
+
+
+
+
+                    db.Entry(editAgency).State = EntityState.Modified;
                         db.SaveChanges();
                         return RedirectToAction("Index");
-                    
+                 
+
+
                 }
             }
             catch(Exception ex)

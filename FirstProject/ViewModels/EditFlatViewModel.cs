@@ -7,6 +7,9 @@ namespace FirstProject.ViewModels
 {
     public class EditFlatViewModel
     {
+        
+        public int BuildingID { get; set; }
+        public int Id { get; set; }
         public int Floor { get; set; }
         public int Number { get; set; }
         public int Bedroom { get; set; }

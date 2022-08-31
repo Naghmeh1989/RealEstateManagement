@@ -143,6 +143,19 @@ namespace FirstProject.Controllers
             }
 
         }
+        // GET: Contracts/CreateRentPayment/5
+
+        public ActionResult CreateRentPayment(int? id)
+        {
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                return RedirectToAction("Create", "RentPayment", new { contractId = id });
+            }
+        }
 
 
         // GET: Contracts/Edit/5
@@ -156,13 +169,24 @@ namespace FirstProject.Controllers
             }
             else
             {
-                Contract contract = db.Contracts.Find(id);
-                return View(contract);
+                var editContract = db.Contracts.Include(x => x.Flat).Where(x => x.Id == id).Select(contractObj => new EditContractViewModel
+                {
+                    FlatNumber = contractObj.Flat.Number,
+                    BuildingName = contractObj.Flat.Building.Name,
+                    TenantFirstName = contractObj.Tenant.FirstName,
+                    TenantLastName = contractObj.Tenant.LastName,
+                    StartDate = contractObj.StartDate,
+                    EndDate = contractObj.EndDate,
+                    RentPayDay = contractObj.RentPaymentDay,
+                    RentAmount = contractObj.RentAmount,
+
+                }).First();
+                return View(editContract);
             }
         }
         //POST: Contracts/Edit/5
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "Id,TenantId,AgencyId,FlatId,RentAmount,RentPayDay,StartDate,EndDate")] Contract contract)
+        public ActionResult Edit([Bind(Include = "FlatNumber,BuildingName,TenantFirstName,TenantLastName,RentAmount,RentPayDay,StartDate,EndDate")] EditContractViewModel editContractViewModel,int id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
@@ -170,16 +194,35 @@ namespace FirstProject.Controllers
             }
             else
             {
-                if (ModelState.IsValid)
-                {
-                    db.Entry(contract).State = EntityState.Modified;
+
+                var editContract = db.Contracts.Include(x => x.Tenant).Include(x => x.Flat).Where(x => x.Id == id).First();
+                editContract.StartDate = editContractViewModel.StartDate;
+                editContract.EndDate = editContractViewModel.EndDate;
+                editContract.RentAmount = editContractViewModel.RentAmount;
+                editContract.Tenant.FirstName = editContractViewModel.TenantFirstName;
+                editContract.Tenant.LastName = editContractViewModel.TenantLastName;
+                editContract.Flat.Number = editContractViewModel.FlatNumber;
+                editContract.Flat.Building.Name = editContractViewModel.BuildingName;
+               
+                    db.Entry(editContract).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
 
-                }
-                return View(contract);
+                
             }
 
+        }
+        //GET: Contracts/EditRentPayment/5
+        public ActionResult EditRentPayment(int? id)
+        {
+            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
+            {
+                return RedirectToAction("Login", "Users");
+            }
+            else
+            {
+                return RedirectToAction("Edit", "RentPayment", new { Id = id });
+            }
         }
         //GET: Contracts/Delete/5
         //public ActionResult Delete(int? id)

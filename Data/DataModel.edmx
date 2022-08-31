@@ -56,7 +56,7 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="ContractId" Type="int" Nullable="false" />
           <Property Name="IsPaid" Type="bit" Nullable="false" />
-          <Property Name="PaymentDate" Type="datetime" Nullable="false" />
+          <Property Name="PaymentDate" Type="datetime" />
         </EntityType>
         <EntityType Name="Tenant">
           <Key>
@@ -103,9 +103,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_RentPayment_Contract">
-          <End Role="Contract" Type="Self.Contract" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
+          <End Role="Contract" Type="Self.Contract" Multiplicity="1" />
           <End Role="RentPayment" Type="Self.RentPayment" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Contract">
@@ -225,7 +223,6 @@
             <End Role="Building" EntitySet="Buildings" />
             <End Role="Flat" EntitySet="Flats" />
           </AssociationSet>
-          <EntitySet Name="RentPayments" EntityType="FirstProjectModel.RentPayment" />
           <EntitySet Name="Tenants" EntityType="FirstProjectModel.Tenant" />
           <EntitySet Name="Contracts" EntityType="FirstProjectModel.Contract" />
           <AssociationSet Name="FK_Contract_Agency" Association="FirstProjectModel.FK_Contract_Agency">
@@ -240,21 +237,12 @@
             <End Role="Tenant" EntitySet="Tenants" />
             <End Role="Contract" EntitySet="Contracts" />
           </AssociationSet>
+          <EntitySet Name="RentPayments" EntityType="FirstProjectModel.RentPayment" />
           <AssociationSet Name="FK_RentPayment_Contract" Association="FirstProjectModel.FK_RentPayment_Contract">
             <End Role="Contract" EntitySet="Contracts" />
             <End Role="RentPayment" EntitySet="RentPayments" />
           </AssociationSet>
         </EntityContainer>
-        <EntityType Name="RentPayment">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" />
-          <Property Name="ContractId" Type="Int32" Nullable="false" />
-          <Property Name="IsPaid" Type="Boolean" Nullable="false" />
-          <Property Name="PaymentDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Contract" Relationship="FirstProjectModel.FK_RentPayment_Contract" FromRole="RentPayment" ToRole="Contract" />
-        </EntityType>
         <EntityType Name="Tenant">
           <Key>
             <PropertyRef Name="Id" />
@@ -317,6 +305,16 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="RentPayment">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ContractId" Type="Int32" Nullable="false" />
+          <Property Name="IsPaid" Type="Boolean" Nullable="false" />
+          <Property Name="PaymentDate" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="Contract" Relationship="FirstProjectModel.FK_RentPayment_Contract" FromRole="RentPayment" ToRole="Contract" />
+        </EntityType>
         <Association Name="FK_RentPayment_Contract">
           <End Type="FirstProjectModel.Contract" Role="Contract" Multiplicity="1" />
           <End Type="FirstProjectModel.RentPayment" Role="RentPayment" Multiplicity="*" />
@@ -380,16 +378,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="RentPayments">
-            <EntityTypeMapping TypeName="FirstProjectModel.RentPayment">
-              <MappingFragment StoreEntitySet="RentPayment">
-                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
-                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
-                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Tenants">
             <EntityTypeMapping TypeName="FirstProjectModel.Tenant">
               <MappingFragment StoreEntitySet="Tenant">
@@ -409,6 +397,16 @@
                 <ScalarProperty Name="AgencyId" ColumnName="AgencyId" />
                 <ScalarProperty Name="TenantId" ColumnName="TenantId" />
                 <ScalarProperty Name="FlatId" ColumnName="FlatId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="RentPayments">
+            <EntityTypeMapping TypeName="FirstProjectModel.RentPayment">
+              <MappingFragment StoreEntitySet="RentPayment">
+                <ScalarProperty Name="PaymentDate" ColumnName="PaymentDate" />
+                <ScalarProperty Name="IsPaid" ColumnName="IsPaid" />
+                <ScalarProperty Name="ContractId" ColumnName="ContractId" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
               </MappingFragment>
             </EntityTypeMapping>

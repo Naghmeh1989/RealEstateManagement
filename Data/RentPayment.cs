@@ -17,7 +17,7 @@ namespace Data
         public int Id { get; set; }
         public int ContractId { get; set; }
         public bool IsPaid { get; set; }
-        public System.DateTime PaymentDate { get; set; }
+        public Nullable<System.DateTime> PaymentDate { get; set; }
     
         public virtual Contract Contract { get; set; }
     }

@@ -6,6 +6,7 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using FirstProject.ViewModels;
 
 namespace FirstProject.Controllers
 {
@@ -23,7 +24,17 @@ namespace FirstProject.Controllers
             }
             else
             {
-                return View(db.RentPayments.ToList());
+                var indexRentPayment = db.RentPayments.Include(x => x.Contract).Select(rentPaymentObj => new IndexRentPaymentViewModel
+                {
+                    BuildingName = rentPaymentObj.Contract.Flat.Building.Name,
+                    FlatNumber = rentPaymentObj.Contract.Flat.Number,
+                    RentAmount = rentPaymentObj.Contract.RentAmount,
+                    PaymentDay = rentPaymentObj.Contract.RentPaymentDay,
+                    PaymentDate = (DateTime)rentPaymentObj.PaymentDate,
+                    IsPaid = rentPaymentObj.IsPaid
+
+                });
+                return View(indexRentPayment);
             }
         }
 
@@ -38,15 +49,24 @@ namespace FirstProject.Controllers
             }
             else
             {
-                RentPayment rentPayment = db.RentPayments.Find(id);
-                return View(rentPayment);
+                var detailsRentPayment = db.RentPayments.Include(x => x.Contract).Where(x => x.Id == id).Select(rentPaymentObj => new DetailsRentPaymentViewModel
+                {
+                    BuildingName = rentPaymentObj.Contract.Flat.Building.Name,
+                    FlatNumber = rentPaymentObj.Contract.Flat.Number,
+                    RentAmount = rentPaymentObj.Contract.RentAmount,
+                    PaymentDay = rentPaymentObj.Contract.RentPaymentDay,
+                    PaymentDate = (DateTime)rentPaymentObj.PaymentDate,
+                    IsPaid = rentPaymentObj.IsPaid
+
+                }).First();
+                return View(detailsRentPayment);
             }
 
         }
 
     //GET : RentPayment/Create
 
-        public ActionResult Create()
+        public ActionResult Create(int? contractId)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
@@ -54,6 +74,7 @@ namespace FirstProject.Controllers
             }
             else
             {
+                ViewData["ContractId"] = contractId;
                 return View();
             }
         }
@@ -61,7 +82,7 @@ namespace FirstProject.Controllers
     //POST : RentPayment/Create
      [HttpPost]
 
-        public ActionResult Create([Bind(Include = "Id,IsPaid,ContractId,PaymentDay")] RentPayment rentPayment)
+        public ActionResult Create([Bind(Include = "Id,IsPaid,ContractId,PaymentDate")] CreateRentPaymentViewModel createRentPaymentViewModel)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
@@ -69,9 +90,22 @@ namespace FirstProject.Controllers
             }
             else
             {
-                db.RentPayments.Add(rentPayment);
-                db.SaveChanges();
-                return View(rentPayment);
+                try
+                {
+                    Contract contract = new Contract();
+                    contract.Id = createRentPaymentViewModel.ContractId;
+                    RentPayment rentPayment1 = new RentPayment();
+                    rentPayment1.PaymentDate = (DateTime)createRentPaymentViewModel.PaymentDate;
+                    rentPayment1.IsPaid = createRentPaymentViewModel.IsPaid;
+                    rentPayment1.Contract = contract;
+                    db.RentPayments.Add(rentPayment1);
+                    db.SaveChanges();
+                    return View(rentPayment1);
+                }
+                catch(Exception ex)
+                {
+                    return null;
+                }
             }
         }
 
@@ -84,14 +118,19 @@ namespace FirstProject.Controllers
             }
             else
             {
-                RentPayment rentPayment = db.RentPayments.Find(id);
-                return View(rentPayment);
+                var editRentPayment = db.RentPayments.Include(x => x.Contract).Where(x => x.Id == id).Select(rentPaymentObj => new EditRentPaymentViewModel
+                { 
+                    IsPaid = rentPaymentObj.IsPaid,
+                    PaymentDate = (DateTime)rentPaymentObj.PaymentDate
+                
+                }).First();
+                return View(editRentPayment);
             }
         }
 
     //POST : RentPayment/Edit/5
-        [HttpPut]
-        public ActionResult Edit([Bind(Include = "Id,IsPaid,ContractId,PaymentDay")] RentPayment rentPayment)
+        [HttpPost]
+        public ActionResult Edit([Bind(Include = "Id,IsPaid,ContractId,PaymentDate")] EditRentPaymentViewModel editRentPaymentViewModel, int id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
@@ -99,13 +138,22 @@ namespace FirstProject.Controllers
             }
             else
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    db.Entry(rentPayment).State = EntityState.Modified;
+                    var editRentPayment = db.RentPayments.Where(x => x.Id == id).First();
+                    editRentPayment.PaymentDate = (DateTime)editRentPaymentViewModel.PaymentDate;
+                    editRentPayment.IsPaid = editRentPaymentViewModel.IsPaid;
+
+
+                    db.Entry(editRentPayment).State = EntityState.Modified;
                     db.SaveChanges();
                     return RedirectToAction("Index");
                 }
-                return View(rentPayment);
+                catch(Exception ex)
+                {
+                    return null;
+                }
+              
             }
 
         }
@@ -125,7 +173,8 @@ namespace FirstProject.Controllers
             }
 
         }
-    //Post: RentPayments/Delete/5
+        //Post: RentPayments/Delete/5
+        [HttpGet, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)

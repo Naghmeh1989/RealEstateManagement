@@ -148,19 +148,23 @@
     <Compile Include="ViewModels\CreateAgencyViewModel.cs" />
     <Compile Include="ViewModels\CreateContractViewModel.cs" />
     <Compile Include="ViewModels\CreateFlatViewModel.cs" />
+    <Compile Include="ViewModels\CreateRentPaymentViewModel.cs" />
     <Compile Include="ViewModels\CreateTenantViewModel.cs" />
     <Compile Include="ViewModels\DetailsAgencyViewModel.cs" />
     <Compile Include="ViewModels\DetailsContractViewModel.cs" />
     <Compile Include="ViewModels\DetailsFlatViewModel.cs" />
+    <Compile Include="ViewModels\DetailsRentPaymentViewModel.cs" />
     <Compile Include="ViewModels\DetailsTenantViewModel.cs" />
     <Compile Include="ViewModels\EditAgencyViewModel.cs" />
     <Compile Include="ViewModels\EditBuildingViewModel.cs" />
     <Compile Include="ViewModels\EditContractViewModel.cs" />
     <Compile Include="ViewModels\EditFlatViewModel.cs" />
+    <Compile Include="ViewModels\EditRentPaymentViewModel.cs" />
     <Compile Include="ViewModels\EditTenantViewModel.cs" />
     <Compile Include="ViewModels\IndexAgencyViewModel.cs" />
     <Compile Include="ViewModels\IndexContractViewModel.cs" />
     <Compile Include="ViewModels\IndexFlatViewModel.cs" />
+    <Compile Include="ViewModels\IndexRentPaymentViewModel.cs" />
     <Compile Include="ViewModels\IndexTenantViewModel.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
@@ -229,12 +233,18 @@
     <Content Include="Views\Contract\Edit.cshtml" />
     <Content Include="Views\Building\Edit.cshtml" />
     <Content Include="Views\Agency\Edit.cshtml" />
+    <Content Include="Views\Building\EditFlat.cshtml" />
+    <Content Include="Views\RentPayment\Index.cshtml" />
+    <Content Include="Views\RentPayment\Details.cshtml" />
+    <Content Include="Views\RentPayment\Create.cshtml" />
+    <Content Include="Views\RentPayment\Edit.cshtml" />
+    <Content Include="Views\Contract\CreateRentPayment.cshtml" />
+    <Content Include="Views\Contract\EditRentPayment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\" />
     <Folder Include="ViewModels\NewFolder1\" />
-    <Folder Include="Views\RentPayment\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

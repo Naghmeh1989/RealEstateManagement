@@ -1,0 +1,53 @@
+﻿@model FirstProject.ViewModels.DetailsRentPaymentViewModel
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details</h2>
+<p>
+    @Html.ActionLink("Create", "Create New", new { id = Model.Id })
+</p>
+
+<table class="table">
+    <tr>
+        <th colspan="3">
+            @Html.DisplayNameFor(model => model.BuildingName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FlatNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentDay)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PaymentDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.RentAmount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.IsPaid)
+        </th>
+        <td colspan="3">
+            @Html.DisplayFor(model => model.BuildingName)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.FlatNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.PaymentDay)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.PaymentDate)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.RentAmount)
+        </td>
+        <td>
+            @Html.DisplayFor(model => model.IsPaid)
+        </td>
+        
+    </tr>
+</table>
+

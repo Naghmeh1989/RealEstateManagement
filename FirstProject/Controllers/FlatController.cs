@@ -145,15 +145,35 @@ namespace FirstProject.Controllers
             }
             else
             {
-                Flat flat = db.Flats.Find(id);
+                
 
-                return View(flat);
+                try
+                {
+
+                    var editFlat = db.Flats.Include(x => x.Building).Where(flatObj => flatObj.Id== id).Select(flatObj => new EditFlatViewModel
+                    {
+                        PetAllowed = (bool)flatObj.PetAllowed,
+                        Parking = (bool)flatObj.Parking,
+                        Bedroom = (int)flatObj.Bedroom,
+                        Floor = (int)flatObj.Floor,
+                        Furnished = (bool)flatObj.Furnished,
+                        BillsIncluded = (bool)flatObj.BillsIncluded,
+                        Number = flatObj.Number,
+
+
+                    }).FirstOrDefault();
+                    return View(editFlat);
+                }
+                catch(Exception ex)
+                {
+                    return null;
+                }
             }
         }
         //POST: Flats/Edit/5
         [HttpPost]
 
-        public ActionResult Edit([Bind(Include = "Id,BuildingId,Number,Floor,Bedroom,Parking,PetAllowed,BillsIncluded,Furnished")] Flat flat)
+        public ActionResult Edit([Bind(Include = "Id,BuildingId,Number,Floor,Bedroom,Parking,PetAllowed,BillsIncluded,Furnished")] EditFlatViewModel editFlatViewModel,int id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
@@ -161,14 +181,27 @@ namespace FirstProject.Controllers
             }
             else
             {
-                if (ModelState.IsValid)
+                try
                 {
-                    db.Entry(flat).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
+                    var editFlat = db.Flats.Include(x => x.Building).Where(x => x.Id == id).First();
+                    editFlat.Bedroom = editFlatViewModel.Bedroom;
+                    editFlat.Floor = editFlatViewModel.Floor;
+                    editFlat.Number = editFlatViewModel.Number;
+                    editFlat.BillsIncluded = editFlatViewModel.BillsIncluded;
+                    editFlat.Furnished = editFlatViewModel.Furnished;
+                    editFlat.PetAllowed = editFlatViewModel.PetAllowed;
+                    editFlat.Parking = editFlatViewModel.Parking;
 
+                    db.Entry(editFlat).State = EntityState.Modified;
+                    db.SaveChanges();
+                     return RedirectToAction("Index");
+
+                   // return RedirectToAction("Details", "Building", new { id = editFlatViewModel.BuildingId });
                 }
-                return View(flat);
+                catch(Exception ex)
+                {
+                    return null;
+                }
             }
 
         }
