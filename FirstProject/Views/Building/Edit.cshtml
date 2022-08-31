@@ -23,7 +23,6 @@
             <td>NumberOfFlats</td>
             <td>@Html.EditorFor(model => model.NumberOfFlats)</td>
         </tr>
-        
         <tr>
             <th colspan="3">
                 <table class="table">
@@ -39,7 +38,6 @@
                     @foreach (var item in Model.Flats)
                     {
                         <tr>
-
                             <td colspan="3">@Html.DisplayFor(modelItem => item.Floor)</td>
                             <td>@Html.DisplayFor(modelItem => item.Number)</td>
                             <td>@Html.CheckBoxFor(modelItem => item.Furnished.Value)</td>
@@ -47,22 +45,14 @@
                             <td>@Html.DisplayFor(modelItem => item.PetAllowed)</td>
                             <td>@Html.DisplayFor(modelItem => item.BillsIncluded)</td>
                             <td>@Html.DisplayFor(modelItem => item.Bedroom)</td>
-
                         </tr>
-
                     }
-
                 </table>
             </th>
         </tr>
-
-
         <tr>
             <input type="submit" value="Submit" />
         </tr>
-
     </table>
-
-
 }
 

@@ -12,7 +12,6 @@ namespace FirstProject.Business
     {
         public bool IsRestricted(int? agencyId)
         {
-            
             if (agencyId == null )
             {
                 return true;
@@ -20,17 +19,6 @@ namespace FirstProject.Business
             {
                 return false;
             }
-
-
         }
-
-        //protected override void Dispose(bool disposing)
-        //{
-        //    if (disposing)
-        //    {
-        //        this.Dispose();
-        //    }
-        //    base.Dispose(disposing);
-        //}
     }
 }

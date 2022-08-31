@@ -34,21 +34,14 @@ namespace FirstProject.Controllers
                         EndDate = contractObj.EndDate,
                         PaymentDay = contractObj.RentPaymentDay,
                         RentAmount = contractObj.RentAmount,
-
-
                     });
                     return View(contractViewModel);
-
-
-
                 }
                 catch (Exception ex)
                 {
                     return null;
                 }
             }
-
-
         }
 
         // GET:/Details/1
@@ -85,11 +78,9 @@ namespace FirstProject.Controllers
                     return null;
                 }
             }
-
         }
 
         // GET:/Create
-        //public ActionResult
         public ActionResult Create()
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
@@ -101,11 +92,9 @@ namespace FirstProject.Controllers
                 var flats = new SelectList(db.Flats.ToList(), "Id", "Id");
                 ViewData["FlatsBag"] = flats;
 
-
                 return View();
             }
         }
-
 
         [HttpPost]
         public ActionResult Create([Bind(Include = "FlatId,TenantFirstName,TenantLastName,AgencyID,RentAmount,RentPayDay,StartDate,EndDate")] CreateContractViewModel createContractViewModel)
@@ -141,10 +130,8 @@ namespace FirstProject.Controllers
                     return null;
                 }
             }
-
         }
         // GET: Contracts/CreateRentPayment/5
-
         public ActionResult CreateRentPayment(int? id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
@@ -157,11 +144,8 @@ namespace FirstProject.Controllers
             }
         }
 
-
         // GET: Contracts/Edit/5
-
         public ActionResult Edit(int? id)
-
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
@@ -194,7 +178,6 @@ namespace FirstProject.Controllers
             }
             else
             {
-
                 var editContract = db.Contracts.Include(x => x.Tenant).Include(x => x.Flat).Where(x => x.Id == id).First();
                 editContract.StartDate = editContractViewModel.StartDate;
                 editContract.EndDate = editContractViewModel.EndDate;
@@ -204,13 +187,10 @@ namespace FirstProject.Controllers
                 editContract.Flat.Number = editContractViewModel.FlatNumber;
                 editContract.Flat.Building.Name = editContractViewModel.BuildingName;
                
-                    db.Entry(editContract).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-
-                
+                db.Entry(editContract).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-
         }
         //GET: Contracts/EditRentPayment/5
         public ActionResult EditRentPayment(int? id)
@@ -225,21 +205,6 @@ namespace FirstProject.Controllers
             }
         }
         //GET: Contracts/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
-        //    {
-        //        return RedirectToAction("Login", "Users");
-        //    }
-        //    else
-        //    {
-
-        //        Contract contract = db.Contracts.Find(id);
-
-        //        return View(contract);
-        //    }
-        //}
-        //Post:Contracts/Delete/5
         [HttpGet, ActionName("Delete")]
         public ActionResult DeleteConfirmed(int id)
         {
@@ -263,9 +228,5 @@ namespace FirstProject.Controllers
             }
             base.Dispose(disposing);
         }
-
-
-        
-
     }
 }

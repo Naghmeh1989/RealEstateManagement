@@ -16,7 +16,7 @@
         <AssociationConnector Association="FirstProjectModel.FK_Contract_Agency" />
         <AssociationConnector Association="FirstProjectModel.FK_Contract_Flat" />
         <AssociationConnector Association="FirstProjectModel.FK_Contract_Tenant" />
-        <EntityTypeShape EntityType="FirstProjectModel.RentPayment" Width="1.5" PointX="3.375" PointY="4.75" />
+        <EntityTypeShape EntityType="FirstProjectModel.RentPayment" Width="1.5" PointX="9.875" PointY="2.75" />
         <AssociationConnector Association="FirstProjectModel.FK_RentPayment_Contract" />
       </Diagram>
     </edmx:Diagrams>

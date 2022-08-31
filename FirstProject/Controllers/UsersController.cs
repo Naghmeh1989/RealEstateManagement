@@ -16,18 +16,14 @@ namespace FirstProject.Controllers
         private LoginBusiness loginRestriction = new LoginBusiness();
 
         // GET: Users
-        
         public ActionResult Index()
         {
-            
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
                 return RedirectToAction("Login", "Users");
             }
             else
             {
-
-
                 try
                 {
                     db.Configuration.LazyLoadingEnabled = false;
@@ -37,14 +33,8 @@ namespace FirstProject.Controllers
                 {
                     return null;
                 };
-
-                
             }
-            
-            
         }
-    
-        
 
         // GET: Users/Details/5
         public ActionResult Details(int? id)
@@ -71,7 +61,6 @@ namespace FirstProject.Controllers
         // GET: Users/Create
         public ActionResult Create()
         {
-
             return View();
         }
 
@@ -84,7 +73,7 @@ namespace FirstProject.Controllers
                 db.Users.Add(user);
                 db.SaveChanges();
          
-            return View(user);
+                return View(user);
         }
 
         // GET: Users/Edit/5
@@ -171,7 +160,6 @@ namespace FirstProject.Controllers
                 return RedirectToAction("Index");
             }
         }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -187,28 +175,21 @@ namespace FirstProject.Controllers
             return View();
         }
 
-
-
-
         // POST:Login
         [HttpPost]
         public ActionResult Login([Bind(Include ="Username,Password")] LoginViewModel userViewModel)
         {
             try
             {
-
                 Agency agency = db.Agencies.Include(x => x.User).Where(x => x.User.Username == userViewModel.Username && x.User.Password == userViewModel.Password).FirstOrDefault();
-
                 if(agency != null)
                 {
                     Session["agencyId"] = agency.Id;
                 }
-                
                 if (agency == null)
                 {
                     return HttpNotFound();
                 }
-
                 return RedirectToAction("Index");
             }
             catch (Exception e)

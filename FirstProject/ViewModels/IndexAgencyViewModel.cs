@@ -11,6 +11,5 @@ namespace FirstProject.ViewModels
         public int AgencyId { get; set; }
         public int UserId { get; set; }
         public string UserName { get; set; }
-
     }
 }

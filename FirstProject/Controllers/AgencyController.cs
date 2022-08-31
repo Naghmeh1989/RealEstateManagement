@@ -18,42 +18,17 @@ namespace FirstProject.Controllers
         private FirstProjectEntities db = new FirstProjectEntities();
         private LoginBusiness loginRestriction = new LoginBusiness();
 
-        //private FirstProjectEntities db;
-        //private string name;
-        //private int _id;
-        //public AgencyController(FirstProjectEntities _db,String _name)
-        //{ 
-        //    db = _db;
-        //    name = _name;
-        //}
-
-        //public AgencyController(int id)
-        //{
-        //    _id = id;
-
-        //}
-
         // GET: Agencies
         public ActionResult Index()
         {
             try
             {
-                
                 if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
                 {
                     return RedirectToAction("Login", "Users");
                 }
                 else
                 {
-                    //IndexAgencyViewModel model1 = new IndexAgencyViewModel();
-                    //model1.AgencyId = 1;
-                    //model1.UserId = 5;
-
-                    //IndexAgencyViewModel model2 = new IndexAgencyViewModel { 
-                    //    UserId = 1, 
-                    //    AgencyName ="Iran" 
-                    //};
-
                     var agenciesAndUsersViewModels = db.Agencies.Include(ag => ag.User).Select(ag => new IndexAgencyViewModel
                     {
                         AgencyName = ag.Name,
@@ -61,7 +36,6 @@ namespace FirstProject.Controllers
                         UserId = ag.UserId,
                         UserName = ag.User.Username
                     });
-
                     return View(agenciesAndUsersViewModels);
                 }
             }
@@ -72,15 +46,7 @@ namespace FirstProject.Controllers
         
         }
 
-
-
-
-
-
-
-
         // GET : Agencies/Details/1
-
         public ActionResult Details(int? id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
@@ -97,7 +63,6 @@ namespace FirstProject.Controllers
                         AgencyName = agencyObj.Name,
                         UserId = agencyObj.UserId,
                         UserName = agencyObj.User.Username
-
                     }).First();
                     return View(agencyDetails);
                 }
@@ -119,16 +84,10 @@ namespace FirstProject.Controllers
             try
             {
                 User user = new User();
-
                 user.Username = createAgencyViewModel.UserName;
                 user.Password = createAgencyViewModel.Password;
-                // db.Users.Add(user);
-                // db.SaveChanges();
-
                 Agency agency1 = new Agency();
-
                 agency1.Name = createAgencyViewModel.Name;
-                //agency1.UserId = user.Id;
                 agency1.User = user;
 
                 db.Agencies.Add(agency1);
@@ -139,9 +98,6 @@ namespace FirstProject.Controllers
             {
                 return null;
             }
-
-
-          
         }
         //Get : Agencies/Edit
         public ActionResult Edit(int? id)
@@ -155,16 +111,12 @@ namespace FirstProject.Controllers
                 var agency = db.Agencies.Where(agencyObj => agencyObj.Id == id).Select(agencyObj => new EditAgencyViewModel
                 {
                     AgencyName = agencyObj.Name
-                    
                 }).First();
                 return View(agency);
             }
         }
         //Post : Agencies/Edit
         [HttpPost]
-        
-
-
         public ActionResult Edit([Bind(Include = "AgencyName,Id,UserId")] EditAgencyViewModel editAgencyViewModel, int id)
         {
             try
@@ -176,23 +128,11 @@ namespace FirstProject.Controllers
                 else
                 {
                     var editAgency = db.Agencies.Include(agencyObj => agencyObj.User).Where(agencyObj => agencyObj.Id == id).First();
-
-
-
-
                     editAgency.Name = editAgencyViewModel.AgencyName;
-                    
-                    
-
-
-
 
                     db.Entry(editAgency).State = EntityState.Modified;
-                        db.SaveChanges();
-                        return RedirectToAction("Index");
-                 
-
-
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
                 }
             }
             catch(Exception ex)
@@ -210,10 +150,8 @@ namespace FirstProject.Controllers
             }
             else
             {
-
                 try
                 {
-                    
                     Agency agency = db.Agencies.Find(id);
                     db.Agencies.Remove(agency);
                     db.SaveChanges();
@@ -233,8 +171,5 @@ namespace FirstProject.Controllers
             }
             base.Dispose(disposing);
         }
-
-       
-
     }
 }

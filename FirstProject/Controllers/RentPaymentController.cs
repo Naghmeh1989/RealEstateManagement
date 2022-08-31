@@ -39,8 +39,6 @@ namespace FirstProject.Controllers
         }
 
     //GET : Details/RentPayments/5
-
-        
         public ActionResult Details(int? id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
@@ -61,11 +59,9 @@ namespace FirstProject.Controllers
                 }).First();
                 return View(detailsRentPayment);
             }
-
         }
 
     //GET : RentPayment/Create
-
         public ActionResult Create(int? contractId)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
@@ -81,7 +77,6 @@ namespace FirstProject.Controllers
 
     //POST : RentPayment/Create
      [HttpPost]
-
         public ActionResult Create([Bind(Include = "Id,IsPaid,ContractId,PaymentDate")] CreateRentPaymentViewModel createRentPaymentViewModel)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
@@ -92,12 +87,10 @@ namespace FirstProject.Controllers
             {
                 try
                 {
-                    Contract contract = new Contract();
-                    contract.Id = createRentPaymentViewModel.ContractId;
                     RentPayment rentPayment1 = new RentPayment();
-                    rentPayment1.PaymentDate = (DateTime)createRentPaymentViewModel.PaymentDate;
+                    rentPayment1.PaymentDate = createRentPaymentViewModel.PaymentDate;
                     rentPayment1.IsPaid = createRentPaymentViewModel.IsPaid;
-                    rentPayment1.Contract = contract;
+                    rentPayment1.ContractId =createRentPaymentViewModel.ContractId;
                     db.RentPayments.Add(rentPayment1);
                     db.SaveChanges();
                     return View(rentPayment1);
@@ -123,7 +116,7 @@ namespace FirstProject.Controllers
                     IsPaid = rentPaymentObj.IsPaid,
                     PaymentDate = (DateTime)rentPaymentObj.PaymentDate
                 
-                }).First();
+                }).FirstOrDefault();
                 return View(editRentPayment);
             }
         }
@@ -140,10 +133,10 @@ namespace FirstProject.Controllers
             {
                 try
                 {
-                    var editRentPayment = db.RentPayments.Where(x => x.Id == id).First();
-                    editRentPayment.PaymentDate = (DateTime)editRentPaymentViewModel.PaymentDate;
-                    editRentPayment.IsPaid = editRentPaymentViewModel.IsPaid;
+                    var editRentPayment = db.RentPayments.Include(x => x.Contract).Where(x => x.Id == id).First();
 
+                    editRentPayment.IsPaid = editRentPaymentViewModel.IsPaid;
+                    editRentPayment.PaymentDate = editRentPaymentViewModel.PaymentDate;
 
                     db.Entry(editRentPayment).State = EntityState.Modified;
                     db.SaveChanges();
@@ -153,11 +146,8 @@ namespace FirstProject.Controllers
                 {
                     return null;
                 }
-              
             }
-
         }
-
 
     //GET : RentPayment/Delete/5
         public ActionResult Delete(int? id)
@@ -171,7 +161,6 @@ namespace FirstProject.Controllers
                 RentPayment rentPayment = db.RentPayments.Find(id);
                 return View(rentPayment);
             }
-
         }
         //Post: RentPayments/Delete/5
         [HttpGet, ActionName("Delete")]
@@ -197,8 +186,5 @@ namespace FirstProject.Controllers
          }
          base.Dispose(disposing);
         }
-
-       
-
     }
 }

@@ -16,8 +16,5 @@ namespace FirstProject.ViewModels
         public DateTime EndDate { get; set; }
         public int PaymentDay { get; set; }
         public Decimal RentAmount { get; set; }
-
-
-
     }
 }

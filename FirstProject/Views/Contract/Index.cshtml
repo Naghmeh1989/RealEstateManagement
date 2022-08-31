@@ -29,13 +29,11 @@
         <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
         <td>@Html.DisplayFor(modelItem => item.PaymentDay)</td>
         <td>@Html.DisplayFor(modelItem => item.RentAmount)</td>
-
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.ContractId }) |
             @Html.ActionLink("Details", "Details", new { id = item.ContractId }) |
             @Html.ActionLink("Delete", "Delete", new { id = item.ContractId })
         </td>
-
     }
 </table>
 

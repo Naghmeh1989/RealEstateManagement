@@ -7,7 +7,6 @@ namespace FirstProject.ViewModels
 {
     public class DetailsContractViewModel
     {
-
         public int ContractId { get; set; }
         public string BuildingName { get; set; }
         public int FlatNumber { get; set; }

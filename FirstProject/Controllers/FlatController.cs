@@ -36,9 +36,6 @@ namespace FirstProject.Controllers
                         Parking = (bool)flatObj.Parking,
                         PetAllowed = (bool)flatObj.PetAllowed,
                         Bedroom = (int)flatObj.Bedroom
-
-
-
                     });
                     return View(indexFlatViewModel);
                 }
@@ -48,7 +45,6 @@ namespace FirstProject.Controllers
                 }
             }
         }
-
 
         // GET: Flats/Details/5
         public ActionResult Details(int? id)
@@ -79,12 +75,8 @@ namespace FirstProject.Controllers
                 {
                     return null;
                 }
-
             }
-
         }
-
-
 
         //GET: Flats/Create
         public ActionResult Create(int? buildingId)
@@ -123,7 +115,6 @@ namespace FirstProject.Controllers
                     db.SaveChanges();
 
                     return RedirectToAction("Details", "Building", new { id = createFlatViewModel.BuildingId });
-
                 }
                 catch(Exception ex)
                 {
@@ -132,12 +123,8 @@ namespace FirstProject.Controllers
             }
         }
 
-
-
         // GET: Flats/Edit/5
-
         public ActionResult Edit(int? id)
-
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
@@ -145,8 +132,6 @@ namespace FirstProject.Controllers
             }
             else
             {
-                
-
                 try
                 {
 
@@ -159,8 +144,6 @@ namespace FirstProject.Controllers
                         Furnished = (bool)flatObj.Furnished,
                         BillsIncluded = (bool)flatObj.BillsIncluded,
                         Number = flatObj.Number,
-
-
                     }).FirstOrDefault();
                     return View(editFlat);
                 }
@@ -170,9 +153,9 @@ namespace FirstProject.Controllers
                 }
             }
         }
+
         //POST: Flats/Edit/5
         [HttpPost]
-
         public ActionResult Edit([Bind(Include = "Id,BuildingId,Number,Floor,Bedroom,Parking,PetAllowed,BillsIncluded,Furnished")] EditFlatViewModel editFlatViewModel,int id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
@@ -194,34 +177,15 @@ namespace FirstProject.Controllers
 
                     db.Entry(editFlat).State = EntityState.Modified;
                     db.SaveChanges();
-                     return RedirectToAction("Index");
-
-                   // return RedirectToAction("Details", "Building", new { id = editFlatViewModel.BuildingId });
+                    return RedirectToAction("Index");
                 }
                 catch(Exception ex)
                 {
                     return null;
                 }
             }
-
         }
-
-        //GET: Flats/Delete/5
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
-        //    {
-        //        return RedirectToAction("Login", "Users");
-        //    }
-        //    else
-        //    {
-        //        Flat flat = db.Flats.Find(id);
-
-        //        return View(flat);
-        //    }
-        //}
-
-
+        
         //Post:Flats/Delete/5
         [HttpGet, ActionName("Delete")]
         public ActionResult Delete(int id)
@@ -246,7 +210,5 @@ namespace FirstProject.Controllers
             }
             base.Dispose(disposing);
         }
-
-       
     }
 }

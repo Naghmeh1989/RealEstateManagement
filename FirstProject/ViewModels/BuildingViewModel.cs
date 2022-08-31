@@ -14,6 +14,5 @@ namespace FirstProject.ViewModels
         public string Address { get; set; }
         public int NumberOfFlats { get; set; }
         public List<Flat> Flats { get; set; }
-
     }
 }

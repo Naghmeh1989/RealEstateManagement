@@ -20,7 +20,6 @@
         <th>
             @Html.DisplayNameFor(model => model.NumberOfFlats)
         </th>
-
     </tr>
 @foreach (var item in Model)
     {
@@ -34,18 +33,13 @@
             <td>
                 @Html.DisplayFor(modelItem => item.NumberOfFlats)
             </td>
-
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
                 @Html.ActionLink("Details", "Details", new { id = item.Id }) |
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })|
                 @Html.ActionLink("Flat", "Flat", new { id = item.Id})
             </td>
-
         </tr>
     }
-
-
-
 </table>
 

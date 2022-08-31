@@ -11,54 +11,52 @@
 
 <table class="table">
     <tr>
+        <th colspan="3">
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberOfFlats)
+        </th>
+    </tr>
+    <tr>
         <td colspan="3">
             @Html.DisplayFor(model => model.Address)
         </td>
-   
         <td>
             @Html.DisplayFor(model => model.Name)
         </td>
-
         <td>
             @Html.DisplayFor(model => model.NumberOfFlats)
         </td>
-
-
     </tr>
-
     <tr>
-      <th colspan="3">
-          <table class="table">
-              <tr>
-                  <th>Floor</th>
-                  <th>Number</th>
-                  <th>Furnished</th>
-                  <th>Parking</th>
-                  <th>PetAllowed</th>
-                  <th>BillsIncluded</th>
-                  <th>Bedroom</th>
-              </tr>
-              @foreach (var item in Model.Flats)
-              {
-                  <tr>
-
-                      <td colspan="3">@Html.DisplayFor(modelItem => item.Floor)</td>
-                      <td>@Html.DisplayFor(modelItem => item.Number)</td>
-                      <td>@Html.CheckBoxFor(modelItem => item.Furnished.Value)</td>
-                      <td>@Html.CheckBoxFor(modelItem => item.Parking.Value)</td>
-                      <td>@Html.DisplayFor(modelItem => item.PetAllowed)</td>
-                      <td>@Html.DisplayFor(modelItem => item.BillsIncluded)</td>
-                      <td>@Html.DisplayFor(modelItem => item.Bedroom)</td>
-                      
-                  </tr>
-
-              }
-
-          </table>
-      </th>
+        <th colspan="3">
+            <table class="table">
+                <tr>
+                    <th>Floor</th>
+                    <th>Number</th>
+                    <th>Furnished</th>
+                    <th>Parking</th>
+                    <th>PetAllowed</th>
+                    <th>BillsIncluded</th>
+                    <th>Bedroom</th>
+                </tr>
+                @foreach (var item in Model.Flats)
+                {
+                    <tr>
+                        <td colspan="3">@Html.DisplayFor(modelItem => item.Floor)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Number)</td>
+                        <td>@Html.CheckBoxFor(modelItem => item.Furnished.Value)</td>
+                        <td>@Html.CheckBoxFor(modelItem => item.Parking.Value)</td>
+                        <td>@Html.DisplayFor(modelItem => item.PetAllowed)</td>
+                        <td>@Html.DisplayFor(modelItem => item.BillsIncluded)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Bedroom)</td>
+                    </tr>
+                }
+            </table>
+        </th>
     </tr>
-   
-        
-          
-        
-    </table>
+</table>

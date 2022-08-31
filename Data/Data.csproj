@@ -91,7 +91,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RentPayment.cs">
       <DependentUpon>DataModel.tt</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="Tenant.cs">
       <DependentUpon>DataModel.tt</DependentUpon>

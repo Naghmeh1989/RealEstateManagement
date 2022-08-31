@@ -11,17 +11,6 @@ using FirstProject.Business;
 
 namespace FirstProject.Controllers
 {
-    //Samte GET e controller bayad ino benevisi:
-   // var agencies = new SelectList(dn.Agencies.ToList(), "ID", "Name");
-    //ViewData["AgenciesBag"] = agencies;
-
-
-//Same view baraye dorost kardan drop down list bayad ino dakhele td benevisi:
-
-
-
- //<td> @Html.DropDownListFor("Agencies", (IEnumerable
-       // <SelectListItem>) ViewData["AgenciesBag"]) </td>
     public class TenantController : Controller
     {
         private FirstProjectEntities db = new FirstProjectEntities();
@@ -40,18 +29,10 @@ namespace FirstProject.Controllers
                 {
                     var tenantViewModel = db.Tenants.Select(tenantObj => new IndexTenantViewModel
                     {
-
                         TenantFirstName = tenantObj.FirstName,
                         TenantLastName = tenantObj.LastName,
-
-
-
-
-
                     });
-
                     return View(tenantViewModel);
-
                 }
                 catch (Exception ex)
                 {
@@ -72,12 +53,9 @@ namespace FirstProject.Controllers
                 {
                     TenantFirstName=tenantObj.FirstName,
                     TenantLastName=tenantObj.LastName,
-                
                 }).First();
                 return View(tenantDetails);
-           
             }
-
         }
 
         //GET: Tenants/Create
@@ -103,15 +81,10 @@ namespace FirstProject.Controllers
             {
                 try
                 {
-
                     Tenant tenant = new Tenant();
-                    
                     tenant.FirstName = createTenantViewModel.TenantFirstName;
                     tenant.LastName = createTenantViewModel.TenantLastName;
-              
-               
                 
-
                     db.Tenants.Add(tenant);
                     db.SaveChanges();
 
@@ -125,9 +98,7 @@ namespace FirstProject.Controllers
     }
 
         // GET: Tenants/Edit/5
-    
         public ActionResult Edit(int? id)
-    
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {
@@ -145,7 +116,6 @@ namespace FirstProject.Controllers
         }
         //POST: Tenants/Edit/5
         [HttpPost]
-
         public ActionResult Edit([Bind(Include = "TenantFirstName,TenantLastName")]EditTenantViewModel editTenantViewModel,int id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
@@ -158,38 +128,11 @@ namespace FirstProject.Controllers
                 tenant.FirstName = editTenantViewModel.TenantFirstName;
                 tenant.LastName = editTenantViewModel.TenantLastName;
                 
-                
-                    db.Entry(tenant).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-
-               
+                db.Entry(tenant).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Index");
             }
-
         }
-
-        //GET: Tenants/Delete/5
-        //[HttpGet, ActionName("Delete")]
-        //public ActionResult Delete(int? id)
-        //{
-        //    if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
-        //    {
-        //        return RedirectToAction("Login", "Users");
-        //    }
-        //    else
-        //    {
-        //        if (id == null)
-        //        {
-        //            return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-        //        }
-        //        Tenant tenant = db.Tenants.Find(id);
-        //        if (tenant == null)
-        //        {
-        //            return HttpNotFound();
-        //        }
-        //        return View(tenant);
-        //    }
-        //}
 
         //Post:Tenants/Delete/5
         [HttpGet, ActionName("Delete")]
@@ -215,7 +158,5 @@ namespace FirstProject.Controllers
             }
             base.Dispose(disposing);
         }
-
-        
     }
 }

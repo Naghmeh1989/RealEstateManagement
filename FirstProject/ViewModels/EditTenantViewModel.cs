@@ -9,6 +9,5 @@ namespace FirstProject.ViewModels
     {
         public string TenantFirstName { get; set; }
         public string TenantLastName { get; set; }
-        
     }
 }

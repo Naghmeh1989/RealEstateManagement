@@ -29,7 +29,6 @@
         <th>
             @Html.DisplayNameFor(model => model.IsPaid)
         </th>
-
     </tr>
     @foreach (var item in Model)
     {
@@ -59,10 +58,6 @@
                 @Html.ActionLink("Delete", "Delete", new { id = item.Id })|
                
             </td>
-
         </tr>
     }
-
-
-
 </table>
