@@ -90,7 +90,7 @@ namespace FirstProject.Controllers
                     RentPayment rentPayment1 = new RentPayment();
                     rentPayment1.PaymentDate = createRentPaymentViewModel.PaymentDate;
                     rentPayment1.IsPaid = createRentPaymentViewModel.IsPaid;
-                    rentPayment1.ContractId =createRentPaymentViewModel.ContractId;
+                    rentPayment1.ContractId = (int)ViewData["ContractId"];
                     db.RentPayments.Add(rentPayment1);
                     db.SaveChanges();
                     return View(rentPayment1);

@@ -18,18 +18,6 @@
         <th>
             @Html.DisplayNameFor(model => model.TenantLastName)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FlatId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.FlatNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BuildingId)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.BuildingAddress)
-        </th>
     </tr>
    @foreach (var item in Model)
     {
@@ -39,18 +27,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.TenantLastName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FlatId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BuildingId)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.FlatNumber)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BuildingAddress)
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.TenantId }) |

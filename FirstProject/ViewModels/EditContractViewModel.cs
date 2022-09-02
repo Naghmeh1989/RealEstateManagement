@@ -7,7 +7,7 @@ namespace FirstProject.ViewModels
 {
     public class EditContractViewModel
     {
-        public int RentPayDay { get; set; }
+        public string ContractId { get; set; }
         public DateTime EndDate { get; set; }
         public decimal RentAmount { get; set; }
         public string TenantLastName { get; set; }

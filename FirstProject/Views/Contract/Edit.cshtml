@@ -6,7 +6,6 @@
 
 <h2>Edit</h2>
 @using (Html.BeginForm())
-
 {
     <table>
         <tr>
@@ -42,12 +41,6 @@
             </td>
         </tr>
         <tr>
-            <td>RentPaymentDay</td>
-            <td>
-                @Html.EditorFor(model => model.RentPayDay)
-            </td>
-        </tr>
-        <tr>
             <td>BuildingName</td>
             <td>
                 @Html.EditorFor(model => model.BuildingName)
@@ -61,7 +54,7 @@
         </tr>
         <tr>
             <td>
-                <input type="submit" value="submit" />
+                <input type="submit" value="Save" />
             </td>
         </tr>
     </table>

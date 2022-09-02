@@ -221,7 +221,6 @@
     <Content Include="Views\Flat\Create.cshtml" />
     <Content Include="Views\Flat\Index.cshtml" />
     <Content Include="Views\Building\Details.cshtml" />
-    <Content Include="Views\Building\CreateFlat.cshtml" />
     <Content Include="Views\Contract\Index.cshtml" />
     <Content Include="Views\Contract\Details.cshtml" />
     <Content Include="Views\Agency\Details.cshtml" />
@@ -232,7 +231,6 @@
     <Content Include="Views\Contract\Edit.cshtml" />
     <Content Include="Views\Building\Edit.cshtml" />
     <Content Include="Views\Agency\Edit.cshtml" />
-    <Content Include="Views\Building\EditFlat.cshtml" />
     <Content Include="Views\RentPayment\Index.cshtml" />
     <Content Include="Views\RentPayment\Details.cshtml" />
     <Content Include="Views\RentPayment\Create.cshtml" />

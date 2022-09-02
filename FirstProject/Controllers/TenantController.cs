@@ -29,6 +29,7 @@ namespace FirstProject.Controllers
                 {
                     var tenantViewModel = db.Tenants.Select(tenantObj => new IndexTenantViewModel
                     {
+                        TenantId = tenantObj.Id,
                         TenantFirstName = tenantObj.FirstName,
                         TenantLastName = tenantObj.LastName,
                     });
@@ -144,10 +145,17 @@ namespace FirstProject.Controllers
             }
             else
             {
-                Tenant tenant = db.Tenants.Find(id);
-                db.Tenants.Remove(tenant);
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                try
+                {
+                    Tenant tenant = db.Tenants.Find(id);
+                    db.Tenants.Remove(tenant);
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                catch(Exception ex)
+                {
+                    return null;
+                }
             }
         }
         protected override void Dispose(bool disposing)

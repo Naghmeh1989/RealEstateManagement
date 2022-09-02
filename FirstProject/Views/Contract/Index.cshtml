@@ -6,7 +6,7 @@
 
 <h2>Index</h2>
 <p>
-    @Html.ActionLink("Create", "Create New")
+    @Html.ActionLink("Create New", "Create")
 </p>
 <table class="table">
     <tr>
@@ -21,19 +21,21 @@
     </tr>
     @foreach (var item in Model)
     {
-        <td colspan="3">@Html.DisplayFor(modelItem => item.BuildingName)</td>
-        <td>@Html.DisplayFor(modelItem => item.FlatNumber)</td>
-        <td>@Html.DisplayFor(modelItem => item.TenantFirstName)</td>
-        <td>@Html.DisplayFor(modelItem => item.TenantLastName)</td>
-        <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
-        <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
-        <td>@Html.DisplayFor(modelItem => item.PaymentDay)</td>
-        <td>@Html.DisplayFor(modelItem => item.RentAmount)</td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.ContractId }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ContractId }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ContractId })
-        </td>
+        <tr>
+            <td colspan="3">@Html.DisplayFor(modelItem => item.BuildingName)</td>
+            <td>@Html.DisplayFor(modelItem => item.FlatNumber)</td>
+            <td>@Html.DisplayFor(modelItem => item.TenantFirstName)</td>
+            <td>@Html.DisplayFor(modelItem => item.TenantLastName)</td>
+            <td>@Html.DisplayFor(modelItem => item.StartDate)</td>
+            <td>@Html.DisplayFor(modelItem => item.EndDate)</td>
+            <td>@Html.DisplayFor(modelItem => item.PaymentDay)</td>
+            <td>@Html.DisplayFor(modelItem => item.RentAmount)</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.ContractId }) |
+                @Html.ActionLink("Details", "Details", new { id = item.ContractId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.ContractId })
+            </td>
+        </tr>
     }
 </table>
 

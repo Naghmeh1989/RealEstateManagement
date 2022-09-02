@@ -5,9 +5,6 @@
 }
 
 <h2>Details</h2>
-<p>
-    @Html.ActionLink("Add Flat" , "CreateFlat", new {id = Model.Id} )
-</p>
 
 <table class="table">
     <tr>
@@ -47,7 +44,7 @@
                 @foreach (var item in Model.Flats)
                 {
                     <tr>
-                        <td colspan="3">@Html.DisplayFor(modelItem => item.Floor)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Floor)</td>
                         <td>@Html.DisplayFor(modelItem => item.Number)</td>
                         <td>@Html.CheckBoxFor(modelItem => item.Furnished.Value)</td>
                         <td>@Html.CheckBoxFor(modelItem => item.Parking.Value)</td>

@@ -26,13 +26,13 @@ namespace FirstProject.Controllers
                 {
                     var contractViewModel = db.Contracts.Include(x => x.Flat).Select(contractObj => new IndexContractViewModel
                     {
+                        ContractId = contractObj.Id,
                         BuildingName = contractObj.Flat.Building.Name,
                         FlatNumber = contractObj.Flat.Number,
                         TenantFirstName = contractObj.Tenant.FirstName,
                         TenantLastName = contractObj.Tenant.LastName,
                         StartDate = contractObj.StartDate,
                         EndDate = contractObj.EndDate,
-                        PaymentDay = contractObj.RentPaymentDay,
                         RentAmount = contractObj.RentAmount,
                     });
                     return View(contractViewModel);
@@ -155,13 +155,13 @@ namespace FirstProject.Controllers
             {
                 var editContract = db.Contracts.Include(x => x.Flat).Where(x => x.Id == id).Select(contractObj => new EditContractViewModel
                 {
+                   
                     FlatNumber = contractObj.Flat.Number,
                     BuildingName = contractObj.Flat.Building.Name,
                     TenantFirstName = contractObj.Tenant.FirstName,
                     TenantLastName = contractObj.Tenant.LastName,
                     StartDate = contractObj.StartDate,
                     EndDate = contractObj.EndDate,
-                    RentPayDay = contractObj.RentPaymentDay,
                     RentAmount = contractObj.RentAmount,
 
                 }).First();
@@ -170,7 +170,7 @@ namespace FirstProject.Controllers
         }
         //POST: Contracts/Edit/5
         [HttpPost]
-        public ActionResult Edit([Bind(Include = "FlatNumber,BuildingName,TenantFirstName,TenantLastName,RentAmount,RentPayDay,StartDate,EndDate")] EditContractViewModel editContractViewModel,int id)
+        public ActionResult Edit([Bind(Include = "FlatNumber,BuildingName,TenantFirstName,TenantLastName,RentAmount,StartDate,EndDate")] EditContractViewModel editContractViewModel,int id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {

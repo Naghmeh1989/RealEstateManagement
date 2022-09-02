@@ -7,6 +7,7 @@ namespace FirstProject.ViewModels
 {
     public class EditTenantViewModel
     {
+        public string TenantId { get; set; }
         public string TenantFirstName { get; set; }
         public string TenantLastName { get; set; }
     }

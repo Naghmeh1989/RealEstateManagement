@@ -10,9 +10,5 @@ namespace FirstProject.ViewModels
         public int TenantId { get; set; }
         public string TenantFirstName { get; set; }
         public string TenantLastName { get; set; }
-        public int FlatNumber { get; set; }
-        public int BuildingId { get; set; }
-        public int FlatId { get; set; }
-        public string BuildingAddress { get; set; }
     }
 }

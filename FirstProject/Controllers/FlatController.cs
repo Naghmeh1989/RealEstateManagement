@@ -28,6 +28,7 @@ namespace FirstProject.Controllers
                 {
                     var indexFlatViewModel = db.Flats.Include(x => x.Building).Select(flatObj => new IndexFlatViewModel
                     {
+                        FlatId = flatObj.Id,
                         BuildingAddress = flatObj.Building.Address,
                         BuildingName = flatObj.Building.Name,
                         Floor = flatObj.Floor,
