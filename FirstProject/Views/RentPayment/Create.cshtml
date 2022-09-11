@@ -10,6 +10,9 @@
 {
     <table>
         <tr>
+            <td>@Html.HiddenFor(model => model.ContractId, ViewData["ContractId"])</td>
+        </tr>
+        <tr>
             <td>PaymentDate</td>
             <td>@Html.EditorFor(model => model.PaymentDate)</td>
         </tr>

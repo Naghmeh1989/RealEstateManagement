@@ -55,7 +55,7 @@ namespace FirstProject.Controllers
             {
                 try
                 {
-                    var contract = db.Contracts.Include(x => x.Flat).Include(x => x.Tenant).First(x => x.Id == id);
+                    var contract = db.Contracts.Include(x => x.RentPayments).Include(x => x.Flat).Include(x => x.Tenant).First(x => x.Id == id);
                     Building building = db.Buildings.Find(contract.Flat.BuildingId);
                     var detailsViewModel = new DetailsContractViewModel
 
@@ -68,6 +68,7 @@ namespace FirstProject.Controllers
                         EndDate = contract.EndDate,
                         PaymentDay = contract.RentPaymentDay,
                         RentAmount = contract.RentAmount,
+                        RentPayments = contract.RentPayments.ToList(),
 
                     };
 

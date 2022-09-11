@@ -7,7 +7,7 @@ namespace FirstProject.ViewModels
 {
     public class IndexRentPaymentViewModel
     {
-        public int Id { get; set; }
+        public int RentPaymentId { get; set; }
         public int ContractId { get; set; }
         public DateTime PaymentDate { get; set; }
         public bool IsPaid { get; set; }

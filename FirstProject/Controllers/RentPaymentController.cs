@@ -24,17 +24,26 @@ namespace FirstProject.Controllers
             }
             else
             {
-                var indexRentPayment = db.RentPayments.Include(x => x.Contract).Select(rentPaymentObj => new IndexRentPaymentViewModel
+                try
                 {
-                    BuildingName = rentPaymentObj.Contract.Flat.Building.Name,
-                    FlatNumber = rentPaymentObj.Contract.Flat.Number,
-                    RentAmount = rentPaymentObj.Contract.RentAmount,
-                    PaymentDay = rentPaymentObj.Contract.RentPaymentDay,
-                    PaymentDate = (DateTime)rentPaymentObj.PaymentDate,
-                    IsPaid = rentPaymentObj.IsPaid
+                    var indexRentPayment = db.RentPayments.Include(x => x.Contract).Select(rentPaymentObj => new IndexRentPaymentViewModel
+                    {
+                        RentPaymentId = rentPaymentObj.Id,
+                        BuildingName = rentPaymentObj.Contract.Flat.Building.Name,
+                        FlatNumber = rentPaymentObj.Contract.Flat.Number,
+                        RentAmount = rentPaymentObj.Contract.RentAmount,
+                        PaymentDay = rentPaymentObj.Contract.RentPaymentDay,
+                        PaymentDate = (DateTime)rentPaymentObj.PaymentDate,
+                        IsPaid = rentPaymentObj.IsPaid
 
-                });
-                return View(indexRentPayment);
+
+                    });
+                    return View(indexRentPayment);
+                }
+                catch(Exception ex)
+                {
+                    return null;
+                }
             }
         }
 
@@ -47,17 +56,24 @@ namespace FirstProject.Controllers
             }
             else
             {
-                var detailsRentPayment = db.RentPayments.Include(x => x.Contract).Where(x => x.Id == id).Select(rentPaymentObj => new DetailsRentPaymentViewModel
+                try
                 {
-                    BuildingName = rentPaymentObj.Contract.Flat.Building.Name,
-                    FlatNumber = rentPaymentObj.Contract.Flat.Number,
-                    RentAmount = rentPaymentObj.Contract.RentAmount,
-                    PaymentDay = rentPaymentObj.Contract.RentPaymentDay,
-                    PaymentDate = (DateTime)rentPaymentObj.PaymentDate,
-                    IsPaid = rentPaymentObj.IsPaid
+                    var detailsRentPayment = db.RentPayments.Include(x => x.Contract).Where(x => x.Id == id).Select(rentPaymentObj => new DetailsRentPaymentViewModel
+                    {
+                        BuildingName = rentPaymentObj.Contract.Flat.Building.Name,
+                        FlatNumber = rentPaymentObj.Contract.Flat.Number,
+                        RentAmount = rentPaymentObj.Contract.RentAmount,
+                        PaymentDay = rentPaymentObj.Contract.RentPaymentDay,
+                        PaymentDate = (DateTime)rentPaymentObj.PaymentDate,
+                        IsPaid = rentPaymentObj.IsPaid
 
-                }).First();
-                return View(detailsRentPayment);
+                    }).First();
+                    return View(detailsRentPayment);
+                }
+                catch(Exception ex)
+                {
+                    return null;
+                }
             }
         }
 
@@ -90,12 +106,13 @@ namespace FirstProject.Controllers
                     RentPayment rentPayment1 = new RentPayment();
                     rentPayment1.PaymentDate = createRentPaymentViewModel.PaymentDate;
                     rentPayment1.IsPaid = createRentPaymentViewModel.IsPaid;
-                    rentPayment1.ContractId = (int)ViewData["ContractId"];
+                    rentPayment1.ContractId = createRentPaymentViewModel.ContractId;
                     db.RentPayments.Add(rentPayment1);
                     db.SaveChanges();
-                    return View(rentPayment1);
+                    return RedirectToAction("Details", "Contract", new { id = createRentPaymentViewModel.ContractId });
+
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     return null;
                 }
@@ -149,22 +166,10 @@ namespace FirstProject.Controllers
             }
         }
 
-    //GET : RentPayment/Delete/5
-        public ActionResult Delete(int? id)
-        {
-            if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
-            {
-                return RedirectToAction("Login", "Users");
-            }
-            else
-            {
-                RentPayment rentPayment = db.RentPayments.Find(id);
-                return View(rentPayment);
-            }
-        }
+  
         //Post: RentPayments/Delete/5
         [HttpGet, ActionName("Delete")]
-        public ActionResult DeleteConfirmed(int id)
+        public ActionResult Delete(int id)
         {
             if (loginRestriction.IsRestricted((int?)Session["agencyId"]) == true)
             {

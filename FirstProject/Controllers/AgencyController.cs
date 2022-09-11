@@ -29,7 +29,7 @@ namespace FirstProject.Controllers
                 }
                 else
                 {
-                    var agenciesAndUsersViewModels = db.Agencies.Include(ag => ag.User).Select(ag => new IndexAgencyViewModel
+                    var agenciesAndUsersViewModels = db.Agencies.Include(ag => ag.User).Where(ag => ag.Id == (int?)Session["agencyId"]).Select(ag => new IndexAgencyViewModel
                     {
                         AgencyName = ag.Name,
                         AgencyId = ag.Id,

@@ -190,7 +190,7 @@ namespace FirstProject.Controllers
                 {
                     return HttpNotFound();
                 }
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", new { Id = (int)Session["agencyId"] });
             }
             catch (Exception e)
             {

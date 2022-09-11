@@ -44,4 +44,22 @@
             @Html.DisplayFor(model => model.RentAmount)
         </td>
     </tr>
+    <tr>
+        <th colspan="3">
+            <table class="table">
+                <tr>
+                    <th>PaymentDate</th>
+                    <th>IsPaid</th>
+                </tr>
+                @foreach (var item in Model.RentPayments)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.PaymentDate)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IsPaid)</td>
+                        
+                    </tr>
+                }
+            </table>
+        </th>
+    </tr>
 </table>
